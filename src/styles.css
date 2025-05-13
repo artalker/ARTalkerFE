@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-family: 'Pretendard', sans-serif;
+}
+
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: var(--default-font-family, pretendard, sans-serif);
+}
+
+.h-root {
+  height: calc(100vh - 125px);
+  overflow-y: scroll;
+  scrollbar-width: none;
+  overflow-x: hidden;
+}
+
+.slick-dots li.slick-active button:before {
+  color: #4b6fbf !important;
+}
+
+.slick-dots li button:before {
+  color: rgb(119, 119, 119) !important;
+}
+
+.slick-dots li button:hover:before {
+  color: rgb(119, 119, 119) !important;
+}
