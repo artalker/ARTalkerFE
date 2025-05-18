@@ -1,14 +1,16 @@
 import React from 'react';
 import Carousel from '../components/home/Carousel';
 import ArtCategory from '../components/home/ArtCategory';
+import TodayRecommendedTalk from '../components/home/TodayRecommendedTalk';
+import LearningTip from '../components/home/LearningTip';
 
 const Home = () => {
   return (
     <div className='w-full h-root flex flex-col justify-start items-center'>
       <Carousel />
-      <div className='w-full pt-[45px]'>
-        <ArtCategory />
-      </div>
+      <ArtCategory />
+      <TodayRecommendedTalk />
+      <LearningTip />
     </div>
   );
 };

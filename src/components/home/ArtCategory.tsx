@@ -4,8 +4,10 @@ import SandroBoticelli from '../../assets/art/the_spring.png';
 import MarcelDuchamp from '../../assets/art/Fountain.jpeg';
 import ShinYoonBok from '../../assets/art/private_spa.jpg';
 import { PlayIcon } from '@heroicons/react/24/solid';
+import { useNavigate } from 'react-router-dom';
 
 const ArtCategory = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<number>(0);
   const categoryList = [
     {
@@ -39,7 +41,7 @@ const ArtCategory = () => {
   ];
 
   return (
-    <div>
+    <div className='pt-[45px]'>
       <section className='max-w-[667px] w-[100vw] h-[46px] flex justify-center items-center bg-[#F1F2F3]'>
         <div className='flex justify-between items-center gap-2'>
           {categoryList.map((category, index) => (
@@ -64,7 +66,14 @@ const ArtCategory = () => {
         {categoryList.map((category, index: number) => {
           return (
             activeCategory === category?.no && (
-              <div key={index}>
+              <div
+                key={index}
+                onClick={() =>
+                  navigate(`/talk/${category.no}`, {
+                    state: { pageName: '대화하기' },
+                  })
+                }
+              >
                 <img
                   src={category.img}
                   alt={category.name}

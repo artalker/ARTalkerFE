@@ -1,15 +1,15 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon } from '@heroicons/react/24/solid';
 import logo from '../../assets/ARTalker.svg';
 
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const menuName = location.pathname.split('/')[1];
+  const { pageName } = location.state || {};
 
   return (
     <div>
-      {menuName === '' ? (
+      {pageName === '홈' || pageName === undefined ? (
         <div className='flex justify-between items-center p-3 h-16'>
           <img src={logo} alt='logo' />
           <div className='flex items-center'>
@@ -18,14 +18,18 @@ const NavBar = () => {
           </div>
         </div>
       ) : (
-        <div
-          onClick={() => navigate(-1)}
-          className='flex justify-center items-center'
-        >
-          <ArrowLeftIcon className='size-6' />
+        <div className='w-full h-16 relative flex items-center'>
+          <div
+            onClick={() => navigate(-1)}
+            className='flex justify-start items-center ml-3 cursor-pointer'
+          >
+            <ChevronLeftIcon className='size-6' />
+          </div>
+          <div className='absolute left-1/2 transform -translate-x-1/2 font-semibold text-[16px] text-[#3D3D3D]'>
+            {pageName}
+          </div>
         </div>
       )}
-      <div className='flex justify-center items-center'>{menuName}</div>
     </div>
   );
 };

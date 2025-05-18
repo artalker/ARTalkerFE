@@ -29,3 +29,12 @@ html {
 .slick-dots li button:hover:before {
   color: rgb(119, 119, 119) !important;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
