@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CustomPagenation from '../common/CustomPagenation';
+import CustomPagination from '../common/CustomPagination';
 
 const Tip = () => {
   const [page, setPage] = useState<number>(1);
@@ -147,7 +147,7 @@ const Tip = () => {
           ))}
         </div>
       </section>
-      <CustomPagenation
+      <CustomPagination
         page={page}
         total={Number(tipList.meta.total)}
         limit={10}

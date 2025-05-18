@@ -1,6 +1,6 @@
 import Pagination from 'react-js-pagination';
 
-const CustomPagenation = ({
+const CustomPagination = ({
   page,
   total,
   limit,
@@ -30,4 +30,4 @@ const CustomPagenation = ({
   );
 };
 
-export default CustomPagenation;
+export default CustomPagination;
