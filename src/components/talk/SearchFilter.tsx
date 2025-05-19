@@ -13,7 +13,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 }) => (
   <button
     onClick={onClick}
-    className={`px-[10px] py-[5px] rounded-[4px] text-[10px] transition-colors duration-200 ${
+    className={`px-[10px] py-[8px] rounded-[4px] text-[10px] leading-[100%] transition-colors duration-200 ${
       isSelected
         ? 'bg-[#6366F1] text-white font-semibold'
         : 'bg-[#E9E9EB] text-[#817E7E] hover:bg-[#E5E5E5] font-semibold'
@@ -60,7 +60,9 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
     <div className='w-[335px] mt-[16px]'>
       <div className='flex flex-col justify-between items-center '>
         <div className='w-full flex items-start justify-start flex-col mb-[14px]'>
-          <p className='text-[12px] text-[#3D3D3D] mb-[8px]'>미술 종류</p>
+          <p className='text-[12px] text-[#3D3D3D] mb-[2px] font-semibold'>
+            미술 종류
+          </p>
           <div className='flex flex-wrap gap-[8px]'>
             {categoryOptions.map((option) => (
               <FilterButton
@@ -98,7 +100,9 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
           </div>
         </div>
         <div className='w-full flex flex-col justify-start items-start'>
-          <p className='text-[12px] text-[#3D3D3D] mb-[8px]'>난이도</p>
+          <p className='text-[12px] text-[#3D3D3D] mb-[2px] font-semibold'>
+            난이도
+          </p>
           <div className='flex flex-wrap gap-[8px]'>
             {levelOptions.map((option) => (
               <FilterButton

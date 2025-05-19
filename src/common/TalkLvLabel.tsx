@@ -1,7 +1,7 @@
 const TalkLvLabel = ({ talkLv }: { talkLv: number }) => {
   return (
     <div
-      className={`w-[44px] h-[20px] rounded-[10px] flex justify-center items-center text-[12px] font-normal text-[#ffffff]
+      className={`w-[30px] h-[12px] rounded-[10px] flex justify-center items-center text-[8px] leading-[100%] font-normal text-[#ffffff]
 ${
   talkLv === 1
     ? 'bg-[#FEB0B3]'
