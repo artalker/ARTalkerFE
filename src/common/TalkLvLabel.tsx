@@ -1,7 +1,25 @@
-import React from 'react';
-
-const TalkLvLabel = () => {
-  return <div></div>;
+const TalkLvLabel = ({ talkLv }: { talkLv: number }) => {
+  return (
+    <div
+      className={`w-[44px] h-[20px] rounded-[10px] flex justify-center items-center text-[12px] font-normal text-[#ffffff]
+${
+  talkLv === 1
+    ? 'bg-[#FEB0B3]'
+    : talkLv === 2
+    ? 'bg-[#F3A4BA]'
+    : talkLv === 3
+    ? 'bg-[#E292C8]'
+    : talkLv === 4
+    ? 'bg-[#C372E2]'
+    : talkLv === 5
+    ? 'bg-[#AB58F5]'
+    : null
+}
+`}
+    >
+      Lv.{talkLv}
+    </div>
+  );
 };
 
 export default TalkLvLabel;

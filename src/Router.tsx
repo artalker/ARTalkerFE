@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import TalkList from './pages/TalkList';
 import Tip from './pages/Tip';
 import MyPage from './pages/MyPage';
+import Service from './pages/Service';
 
 const Router = () => {
   //   const AuthenticateRoute = ({
@@ -31,6 +32,7 @@ const Router = () => {
         <Route path='talkList' element={<TalkList />} />
         <Route path='tip' element={<Tip />} />
         <Route path='mypage' element={<MyPage />} />
+        <Route path='service' element={<Service />} />
       </Route>
     </Routes>
   );
