@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UserLevelSection from '../components/user/UserLevelSection';
 import MenuButtonBar from '../common/MenuButtonBar';
 import TotalEvaluation from '../components/myPage/TotalEvaluation';

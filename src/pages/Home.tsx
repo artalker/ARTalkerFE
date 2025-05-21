@@ -1,4 +1,3 @@
-import React from 'react';
 import Carousel from '../components/home/Carousel';
 import ArtCategory from '../components/home/ArtCategory';
 import TodayRecommendedTalk from '../components/home/TodayRecommendedTalk';

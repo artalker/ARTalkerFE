@@ -1,5 +1,3 @@
-import React from 'react';
-
 const TotalEvaluation = () => {
   return (
     <div className='w-[335px] flex flex-col justify-start items-center'>

@@ -1,4 +1,3 @@
-import React from 'react';
 import TalkLvLabel from '../../common/TalkLvLabel';
 
 const TalkListItems = ({ data }: { data: any }) => {
