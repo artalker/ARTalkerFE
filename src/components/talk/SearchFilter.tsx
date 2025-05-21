@@ -53,7 +53,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
     { value: '5', label: 'Lv.05' },
   ];
 
-  // 전체 선택 버튼이 항상 선택되어 있게 함
+  // 전체 선택 버튼 고정값
   const hasAllSelected = (values: string[]) => values.includes('');
 
   return (

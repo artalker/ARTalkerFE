@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserLevelSection from '../components/user/UserLevelSection';
 import SearchBar from '../components/talk/SearchBar';
 import SearchFilter from '../components/talk/SearchFilter';
@@ -102,6 +102,21 @@ const TalkList = () => {
       },
     },
   ];
+
+  useEffect(() => {
+    if (filter.categories.length === 4) {
+      setFilter({
+        ...filter,
+        categories: [''],
+      });
+    }
+    if (filter.levels.length === 5) {
+      setFilter({
+        ...filter,
+        levels: [''],
+      });
+    }
+  }, [filter.categories, filter.levels]);
 
   return (
     <div className='w-full h-root flex flex-col justify-start items-center bg-[#F9FAFB]'>

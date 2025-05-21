@@ -12,7 +12,12 @@ const NavBar = () => {
       {pageName === '홈' || pageName === undefined ? (
         <div className='flex justify-between items-center p-3 h-16'>
           <img src={logo} alt='logo' />
-          <div className='flex items-center'>
+          <div
+            className='flex items-center cursor-pointer'
+            onClick={() =>
+              navigate('/mypage', { state: { pageName: '마이페이지' } })
+            }
+          >
             <span className='text-[#082E57]'>아트토커</span>
             <span className='text-[#999999] ml-1'>님</span>
           </div>
