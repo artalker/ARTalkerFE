@@ -10,7 +10,7 @@ const CustomInput = React.forwardRef<
   }
 >(({ className, type, value, onChange, ...props }, ref) => {
   return (
-    <div className='relative mt-[24px]'>
+    <div className='relative mt-[24px] transform-gpu'>
       <input
         type={type}
         value={value}
