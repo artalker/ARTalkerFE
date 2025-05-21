@@ -1,9 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import UserLevelSection from '../components/user/UserLevelSection';
+import MenuButtonBar from '../common/MenuButtonBar';
+import TotalEvaluation from '../components/myPage/TotalEvaluation';
+import CamillePissarro from '../assets/art/boulevardMontmatre_spring.png';
+import CompletedTalk from '../components/myPage/CompletedTalk';
 
 const MyPage = () => {
+  const [activeMenu, setActiveMenu] = useState<string>('종합평가');
+  const menu = [
+    { title: '종합평가', val: 'totalEvaluation' },
+    { title: '완료한 대화', val: 'completedTalk' },
+  ];
+  const completedTalkData = [
+    {
+      items: [
+        {
+          no: 0,
+          title: '몽마르트 대로, 봄',
+          name: '프란시스코 피사로',
+          img: CamillePissarro,
+          desc: 'Oil on canvas, 65cm *81cm',
+          year: '1897',
+          level: '1',
+          isCompleted: true,
+          score: 5,
+        },
+      ],
+      meta: {
+        total: 10,
+        page: '1',
+        limit: '20',
+        totalPages: 1,
+        search: '',
+      },
+    },
+  ];
   return (
     <div className='w-full h-root flex flex-col justify-start items-center bg-[#F9FAFB]'>
-      <div>마이페이지</div>
+      <UserLevelSection />
+      <MenuButtonBar
+        menu={menu}
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+      />
+      {activeMenu === '종합평가' ? (
+        <TotalEvaluation />
+      ) : (
+        <CompletedTalk data={completedTalkData} />
+      )}
     </div>
   );
 };
