@@ -3,9 +3,9 @@ import TalkLvLabel from '../../common/TalkLvLabel';
 const TalkListItems = ({ data }: { data: any }) => {
   return (
     <div className='w-[335px] grid grid-cols-2 gap-[6px] mt-[45px]'>
-      {data[0]?.items.map((item: any) => (
+      {data[0]?.items.map((item: any, index: number) => (
         <div
-          key={item.no}
+          key={index}
           className='w-[160px] h-[199px] flex flex-col justify-start items-start border-[1px] border-[#E5E5E5] bg-[#FFFFFF] rounded-lg mb-[6px] overflow-hidden'
         >
           <div className='w-full h-[93px] min-h-[93px] rounded-r-[8px] rounded-l-[8px] rounded-b-none overflow-hidden'>

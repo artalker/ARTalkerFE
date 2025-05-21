@@ -18,7 +18,7 @@ const MenuButtonBar = ({
       {menu.map((item, index) => (
         <button
           key={index}
-          className={`w-[50%] h-[35px] flex justify-center items-center  ${
+          className={`w-[50%] h-[37px] flex justify-center items-center  ${
             activeMenu === item.title
               ? 'bg-[#6366F1] text-white font-[12px]'
               : 'bg-[#FFFFFF] text-[#6366F1] font-[12px]'
