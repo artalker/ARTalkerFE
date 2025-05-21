@@ -4,7 +4,7 @@ import TalkProgress from '../../common/CustomProgress';
 
 const UserLevelSection = () => {
   return (
-    <div className='w-[335px] h-[90px] flex flex-col justify-between items-start mt-[20px]'>
+    <div className='w-[335px] min-h-[90px] flex flex-col justify-between items-start mt-[20px]'>
       <div className='flex justify-between items-center w-full'>
         <div>
           <h2 className='text-[18px] font-semibold mb-[4px]'>
