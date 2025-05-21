@@ -16,7 +16,7 @@ const CustomInput = React.forwardRef<
         value={value}
         onChange={onChange}
         className={cn(
-          'flex h-9 w-[335px] rounded-[10px] border border-[#EBEBEB] bg-[#ffffff] px-[12px] py-[12px] text-[14px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-[#B3B3B3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus:border-[#6366F1] focus:ring-[#6366F1] [touch-action:manipulation]',
+          'flex h-9 w-[335px] rounded-[10px] border border-[#EBEBEB] bg-[#ffffff] px-[12px] py-[12px] text-[16px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-[#B3B3B3] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus:border-[#6366F1] focus:ring-[#6366F1] [touch-action:manipulation]',
           className
         )}
         ref={ref}
