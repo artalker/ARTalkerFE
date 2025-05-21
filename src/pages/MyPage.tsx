@@ -15,15 +15,47 @@ const MyPage = () => {
     {
       items: [
         {
+          id: 1234,
           no: 0,
           title: '몽마르트 대로, 봄',
           name: '프란시스코 피사로',
           img: CamillePissarro,
           desc: 'Oil on canvas, 65cm *81cm',
+          content:
+            '몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. 피사로는 이 작품에서 봄의 아름다움을 표현했습니다.',
           year: '1897',
           level: '1',
           isCompleted: true,
-          score: 5,
+          score: 4,
+          date: '2025-05-21',
+        },
+        {
+          no: 0,
+          title: '몽마르트 대로, 봄',
+          name: '프란시스코 피사로',
+          img: CamillePissarro,
+          desc: 'Oil on canvas, 65cm *81cm',
+          content:
+            '몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. 피사로는 이 작품에서 봄의 아름다움을 표현했습니다.',
+          year: '1897',
+          level: '1',
+          isCompleted: true,
+          score: 4,
+          date: '2025-05-21',
+        },
+        {
+          no: 0,
+          title: '몽마르트 대로, 봄',
+          name: '프란시스코 피사로',
+          img: CamillePissarro,
+          desc: 'Oil on canvas, 65cm *81cm',
+          content:
+            '몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. 피사로는 이 작품에서 봄의 아름다움을 표현했습니다.',
+          year: '1897',
+          level: '1',
+          isCompleted: false,
+          score: 4,
+          date: '2025-05-21',
         },
       ],
       meta: {
