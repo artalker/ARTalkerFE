@@ -22,4 +22,8 @@ declare module 'react-speech-recognition' {
   export function stopListening() {
     throw new Error('Function not implemented.');
   }
+
+  export function browserSupportsSpeechRecognition(): boolean {
+    throw new Error('Function not implemented.');
+  }
 }
