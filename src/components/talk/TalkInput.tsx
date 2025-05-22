@@ -187,6 +187,7 @@ const TalkInput = ({
       setTalkUserData((prev) => [...prev, { message: input }]);
       setInput('');
       resetTranscript();
+      setIsRecording(false);
     }
   };
 
