@@ -26,9 +26,11 @@ const TalkDataInfo = ({
     }
   }, [talkUserData]);
 
-  const aiMessageData = [{ aiMessage: 'hello' }];
+  const aiMessageData = [
+    { aiMessage: 'How many people can you see in this painting?' },
+  ];
 
-  // AI와 사용자 메시지를 번갈아가며 합치기
+  // AI와 사용자 메시지를 번갈아가며 합치기, 데이터 완료 후 제거
   const combinedMessages = [];
   const maxLength = Math.max(talkUserData.length, aiMessageData.length);
 
