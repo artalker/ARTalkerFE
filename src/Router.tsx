@@ -28,12 +28,12 @@ const Router = () => {
       <Route path='login' element={<Login />} />
       <Route path='/' element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path='talk/:id' element={<Talk />} />
         <Route path='talkList' element={<TalkList />} />
         <Route path='tip' element={<Tip />} />
         <Route path='mypage' element={<MyPage />} />
         <Route path='service' element={<Service />} />
       </Route>
+      <Route path='talk/:id' element={<Talk />} />
     </Routes>
   );
 };

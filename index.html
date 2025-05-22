@@ -10,9 +10,37 @@
     <link rel="stylesheet" href="./src/styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ARTalker</title>
+  <meta name="google" content="notranslate">
+  <meta name="google" content="notranslate" http-equiv="Content-Language" content="en">
+  <meta name="google" content="notranslate" http-equiv="Content-Language" content="ko">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Google Translate 비활성화
+      function disableGoogleTranslate() {
+        if (typeof google !== 'undefined') {
+          google.translate._constants = {
+            ...google.translate._constants,
+            googleTranslateElementInit: null,
+          };
+          google.translate._constants.elements = [];
+        }
+
+        // Google 번역 버튼 제거
+        const translateButtons = document.querySelectorAll('.goog-te-gadget');
+        translateButtons.forEach(button => button.remove());
+
+        // Google 번역 프레임 제거
+        const translateFrames = document.querySelectorAll('iframe[title="Google Translate"]');
+        translateFrames.forEach(frame => frame.remove());
+      }
+
+      // 페이지 로드 시 실행
+      window.addEventListener('load', disableGoogleTranslate);
+      // 번역 버튼 클릭 시 실행
+      document.addEventListener('click', disableGoogleTranslate);
+    </script>
   </body>
 </html>

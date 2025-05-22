@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ContentCard from '../components/talk/ContentCard';
 import CamillePissarro from '../assets/art/boulevardMontmatre_spring.png';
 import TalkAi from '../components/talk/TalkAi';
+import NavBar from '../components/layout/NavBar';
 
 const Talk = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
@@ -55,18 +56,23 @@ const Talk = () => {
   };
 
   return (
-    <div className='relative w-full h-root flex flex-col justify-start items-center bg-[#F9FAFB] overflow-hidden'>
-      <ContentCard
-        content={content}
-        time={time}
-        isExpanded={isExpanded}
-        setIsExpanded={setIsExpanded}
-      />
-      <TalkAi
-        isStart={isStart}
-        isExpanded={isExpanded}
-        setIsStart={setIsStart}
-      />
+    <div className='relative w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>
+      <div className='relative w-full max-w-[667px] min-w-[355px] bg-white h-screen overflow-hidden'>
+        <NavBar />
+        <div className='relative w-full h-[calc(100vh-64px)] flex flex-col justify-start items-center bg-[#F9FAFB]'>
+          <ContentCard
+            content={content}
+            time={time}
+            isExpanded={isExpanded}
+            setIsExpanded={setIsExpanded}
+          />
+          <TalkAi
+            isStart={isStart}
+            isExpanded={isExpanded}
+            setIsStart={setIsStart}
+          />
+        </div>
+      </div>
     </div>
   );
 };
