@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 const userMessageStyle =
   'bg-[#E5E5E5] text-[#000000] rounded-[12px] px-[16px] py-[8px] max-w-[70%]';
