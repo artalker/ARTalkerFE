@@ -25,6 +25,7 @@ const TalkInput = ({
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
   const [permissionError, setPermissionError] = useState<string | null>(null);
+  const [lastTranscript, setLastTranscript] = useState<string>('');
 
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
@@ -56,6 +57,7 @@ const TalkInput = ({
       setTalkUserData((prev) => [...prev, { message: input }]);
       setInput('');
       resetTranscript();
+      setLastTranscript('');
       setIsRecording(false);
     }
   };
@@ -73,10 +75,21 @@ const TalkInput = ({
   }, []);
 
   useEffect(() => {
-    if (listening) {
-      setInput(transcript);
+    if (listening && transcript) {
+      if (transcript !== lastTranscript) {
+        if (
+          transcript.length > lastTranscript.length &&
+          transcript.startsWith(lastTranscript)
+        ) {
+          const newText = transcript.slice(lastTranscript.length);
+          setInput((current) => current + newText);
+        } else {
+          setInput((current) => current + transcript);
+        }
+        setLastTranscript(transcript);
+      }
     }
-  }, [transcript]);
+  }, [listening, transcript, lastTranscript]);
 
   return (
     <div className='fixed bottom-[0px] left-1/2 transform -translate-x-1/2 max-w-[667px] w-full h-[60px] bg-[#FFFFFF] border-[1px] border-[#E5E5E5]'>
@@ -118,18 +131,17 @@ const TalkInput = ({
             )}
             <input
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleEnterKey}
-              onInput={(e: React.FormEvent<HTMLInputElement>) => {
-                const value = e.currentTarget.value;
-                // 한글이 포함되어 있지 않은 경우만 입력 허용
+              onChange={(e) => {
+                const value = e.target.value;
                 if (!/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
                   setInput(value);
+                  resetTranscript();
+                  setLastTranscript('');
                 } else {
-                  // 한글이 포함된 경우 이전 상태로 복구
                   e.currentTarget.value = input;
                 }
               }}
+              onKeyPress={handleEnterKey}
               placeholder='마이크를 눌러 영어로 대화해보세요'
               type='text'
               className='w-full border-[none] focus:outline-none text-[16px] placeholder:text-[#817E7E] placeholder:text-[16px]'

@@ -54,7 +54,7 @@ const ContentCard = ({
             </div>
             <div className='absolute bottom-[-13px] left-0 w-full h-[50px] flex justify-center items-center'>
               <button onClick={() => setIsExpanded(!isExpanded)}>
-                <ChevronDoubleUpIcon className='w-[14px] h-[14px] font-bold text-[#ABABAB]' />
+                <ChevronDoubleUpIcon className='w-[16px] h-[16px] font-Extrabold text-[#A855F7]' />
               </button>
             </div>
             <span
@@ -97,7 +97,7 @@ const ContentCard = ({
               </p>
             </div>
             <button onClick={() => setIsExpanded(!isExpanded)}>
-              <ChevronDoubleDownIcon className='w-[14px] h-[14px] font-bold text-[#ABABAB] absolute bottom-[0px] left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
+              <ChevronDoubleDownIcon className='w-[16px] h-[16px] font-Extrabold text-[#A855F7] absolute bottom-[0px] left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
             </button>
           </div>
         )}
