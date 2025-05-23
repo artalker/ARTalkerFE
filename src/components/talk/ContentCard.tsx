@@ -4,6 +4,7 @@ import {
 } from '@heroicons/react/24/solid';
 import TalkLvLabel from '../../common/TalkLvLabel';
 import { useState } from 'react';
+import { FormattedTime } from '../../common/FormattedTime';
 
 interface ContentCardProps {
   content: any;
@@ -19,10 +20,6 @@ const ContentCard = ({
   setIsExpanded,
 }: ContentCardProps) => {
   const [isEnglish, setIsEnglish] = useState<boolean>(false);
-  // 시간을 분:초 형식으로 변환
-  const minutes = Math.floor(time / 60);
-  const seconds = time % 60;
-  const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
   return (
     <div
@@ -47,7 +44,9 @@ const ContentCard = ({
                   <p className='text-[12px] text-[#ABABAB]'>{content.name}</p>
                   <TalkLvLabel talkLv={Number(content.level)} />
                 </div>
-                <p className='text-[#A855F7] font-semibold'> {formattedTime}</p>
+                <p className='text-[#A855F7] font-semibold'>
+                  {FormattedTime(time)}
+                </p>
               </div>
               <p className='text-[10px] text-[#ABABAB] mt-[5px]'>
                 {content.content}
@@ -94,7 +93,7 @@ const ContentCard = ({
                 </div>
               </div>
               <p className='text-[#A855F7] font-semibold cursor-pointer'>
-                {formattedTime}
+                {FormattedTime(time)}
               </p>
             </div>
             <button onClick={() => setIsExpanded(!isExpanded)}>

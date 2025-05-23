@@ -1,36 +1,30 @@
 import { useRef, useEffect } from 'react';
-
-const userMessageStyle =
-  'bg-[#E5E5E5] text-[#000000] rounded-[12px] px-[16px] py-[8px] max-w-[70%]';
-const aiMessageStyle =
-  'bg-[#6366F1] text-[#FFFFFF] rounded-[12px] px-[16px] py-[8px] max-w-[70%]';
+import Loading from '../../assets/Loading.gif';
+import AIMessage from './AiMessage';
+import UserMessage from './UserMessage';
 
 interface TalkDataInfoProps {
   isExpanded: boolean;
   talkUserData: any[];
   isStart: boolean;
+  isEnd: boolean;
+  isResultLoading: boolean;
 }
 
 const TalkDataInfo = ({
   isExpanded,
   talkUserData,
   isStart,
+  isEnd,
+  isResultLoading,
 }: TalkDataInfoProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // 메시지가 변경될 때마다 스크롤을 마지막으로 이동
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
-    }
-  }, [talkUserData]);
 
   const aiMessageData = [
     { aiMessage: 'How many people can you see in this painting?' },
   ];
 
-  // AI와 사용자 메시지를 번갈아가며 합치기, 데이터 완료 후 제거
+  // AI와 사용자 메시지를 번갈아가며 합치기, 데이터작업 완료 후 제거
   const combinedMessages = [];
   const maxLength = Math.max(talkUserData.length, aiMessageData.length);
 
@@ -51,6 +45,14 @@ const TalkDataInfo = ({
     }
   }
 
+  // 메시지가 변경될 때마다 스크롤을 마지막으로 이동
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  }, [talkUserData]);
+
   return (
     <div
       className={`absolute left-0 max-w-[667px] w-full bottom-[58px]  ${
@@ -61,10 +63,10 @@ const TalkDataInfo = ({
     >
       <div className='relative w-full h-full'>
         <div
-          className='overflow-y-auto h-full px-4 py-2 scrollbar-hide'
+          className='overflow-y-auto h-full px-[21px] py-[18px] scrollbar-hide'
           ref={scrollContainerRef}
         >
-          {isStart &&
+          {(isStart || isEnd) &&
             combinedMessages.map((message, index) => (
               <div
                 key={index}
@@ -72,15 +74,49 @@ const TalkDataInfo = ({
                   message.type === 'ai' ? 'justify-start' : 'justify-end'
                 } mb-4`}
               >
-                <div
-                  className={`${
-                    message.type === 'ai' ? aiMessageStyle : userMessageStyle
-                  } ${index === 0 ? 'mt-4' : ''}`}
-                >
-                  {message.message}
-                </div>
+                {message.type === 'ai' ? (
+                  <AIMessage message={message.message} />
+                ) : (
+                  <UserMessage message={message.message} />
+                )}
               </div>
             ))}
+          {/*대화종료 시*/}
+          {isEnd && (
+            <div className='flex justify-center items-center w-full h-[36px] p-[8px] bg-[#FFFFFF] border-[1px] border-[#ABAFBA] rounded-[4px]'>
+              {combinedMessages.length < 6 ? (
+                <div className='w-full flex justify-between items-center '>
+                  <p className='text-[10px]'>
+                    대화양이 부족하여 대화분석이 불가합니다. 다시 시도해주세요.
+                  </p>
+                  <button className='bg-[#A855F7] text-[#FFFFFF] text-[10px] leading-[10px] font-semibold p-[8px] rounded-[4px]'>
+                    다시하기
+                  </button>
+                </div>
+              ) : isResultLoading && combinedMessages.length > 6 ? (
+                <div className='w-full flex justify-between items-center '>
+                  <p className='text-[10px]'>
+                    대화가 종료되었습니다. AI가 결과를 분석 중입니다.
+                  </p>
+                  <img
+                    src={Loading}
+                    alt='loading'
+                    className='w-[30px] h-[30px]'
+                  />
+                </div>
+              ) : (
+                <div className='w-full flex justify-between items-center '>
+                  <p className='text-[10px]'>
+                    대화가 종료되었습니다. AI가 분석한 대화 분석결과가
+                    나왔습니다.
+                  </p>
+                  <button className='bg-[#A855F7] text-[#FFFFFF] text-[10px] leading-[10px] font-semibold p-[8px] rounded-[4px]'>
+                    결과보기
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

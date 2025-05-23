@@ -6,14 +6,16 @@ interface TalkAiProps {
   isStart: boolean;
   setIsStart: (isStart: boolean) => void;
   isExpanded: boolean;
+  isEnd: boolean;
 }
 
 interface TalkUserData {
   message: string;
 }
 
-const TalkAi = ({ isStart, setIsStart, isExpanded }: TalkAiProps) => {
+const TalkAi = ({ isStart, setIsStart, isExpanded, isEnd }: TalkAiProps) => {
   const [talkUserData, setTalkUserData] = useState<TalkUserData[]>([]);
+  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
   return (
     <>
@@ -22,12 +24,17 @@ const TalkAi = ({ isStart, setIsStart, isExpanded }: TalkAiProps) => {
         isExpanded={isExpanded}
         talkUserData={talkUserData}
         isStart={isStart}
+        isEnd={isEnd}
+        isResultLoading={true}
       />
       {/* 대화 입력창 */}
       <TalkInput
         isStart={isStart}
         setIsStart={setIsStart}
         setTalkUserData={setTalkUserData}
+        isEnd={isEnd}
+        isAiLoading={isAiLoading}
+        setIsAiLoading={setIsAiLoading}
       />
     </>
   );

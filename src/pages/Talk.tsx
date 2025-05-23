@@ -3,6 +3,7 @@ import ContentCard from '../components/talk/ContentCard';
 import CamillePissarro from '../assets/art/boulevardMontmatre_spring.png';
 import TalkAi from '../components/talk/TalkAi';
 import NavBar from '../components/layout/NavBar';
+import TalkEndButton from '../components/talk/TalkEndButton';
 
 const Talk = () => {
   const [isStart, setIsStart] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const Talk = () => {
 
   useEffect(() => {
     if (isEnd) {
-      console.log('end');
+      setTime(0);
     }
   }, [isEnd]);
 
@@ -68,9 +69,13 @@ const Talk = () => {
           />
           <TalkAi
             isStart={isStart}
+            isEnd={isEnd}
             isExpanded={isExpanded}
             setIsStart={setIsStart}
           />
+          {isStart && (
+            <TalkEndButton time={time} isEnd={isEnd} setIsEnd={setIsEnd} />
+          )}
         </div>
       </div>
     </div>
