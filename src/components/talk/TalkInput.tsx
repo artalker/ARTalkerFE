@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from 'react-speech-recognition';
@@ -26,6 +26,8 @@ const TalkInput = ({
   const [input, setInput] = useState<string>('');
   const [permissionError, setPermissionError] = useState<string | null>(null);
   const [lastTranscript, setLastTranscript] = useState<string>('');
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
@@ -87,6 +89,14 @@ const TalkInput = ({
           setInput((current) => current + transcript);
         }
         setLastTranscript(transcript);
+
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+            inputRef.current.selectionStart = inputRef.current.value.length;
+            inputRef.current.selectionEnd = inputRef.current.value.length;
+          }
+        }, 0);
       }
     }
   }, [listening, transcript, lastTranscript]);
@@ -130,6 +140,7 @@ const TalkInput = ({
               </div>
             )}
             <input
+              ref={inputRef}
               value={input}
               onChange={(e) => {
                 const value = e.target.value;
