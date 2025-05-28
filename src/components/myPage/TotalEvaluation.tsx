@@ -4,7 +4,7 @@ import TotalEvaluationChart from './TotalEvaluationChart';
 
 const TotalEvaluation = () => {
   return (
-    <div className='w-[335px] flex flex-col justify-start items-center mt-[18px]'>
+    <div className='w-[335px] flex flex-col justify-start items-center mt-[18px] mb-[70px]'>
       <SummaryInfo />
       <StudyPeriod />
       <TotalEvaluationChart />
