@@ -1,3 +1,4 @@
+import LearningCompletionGraph from './ LearningCompletionGraph';
 import StudyPeriod from './StudyPeriod';
 import SummaryInfo from './SummaryInfo';
 import TotalEvaluationChart from './TotalEvaluationChart';
@@ -8,6 +9,7 @@ const TotalEvaluation = () => {
       <SummaryInfo />
       <StudyPeriod />
       <TotalEvaluationChart />
+      <LearningCompletionGraph />
     </div>
   );
 };
