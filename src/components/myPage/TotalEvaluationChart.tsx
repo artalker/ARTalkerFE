@@ -8,7 +8,7 @@ const TotalEvaluationChart = () => {
     { name: '표현력', score: 70, average: 20 },
   ];
   return (
-    <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px] '>
+    <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px]'>
       <h2 className='text-[12px] font-medium'>종합평가</h2>
       <TotalRadarChart chartData={chartData} />
       <CompareAaverages chartData={chartData} />

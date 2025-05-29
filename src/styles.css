@@ -12,11 +12,12 @@ html {
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
   font-family: var(--default-font-family, pretendard, sans-serif);
+  overflow-x: hidden;
 }
 
 .h-root {
   height: calc(100vh - 125px);
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-width: none;
   overflow-x: hidden;
 }
