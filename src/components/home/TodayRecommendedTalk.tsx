@@ -42,7 +42,7 @@ const TodayRecommendedTalk = () => {
         <button
           className='text-[#999999] text-[14px] font-normal'
           onClick={() => {
-            navigate('/talkList', { state: { pageName: '대화하기' } });
+            navigate('/talkList');
           }}
         >
           더보기

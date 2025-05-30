@@ -5,18 +5,35 @@ import logo from '../../assets/ARTalker.svg';
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { pageName } = location.state || {};
+  const pathName = location.pathname.slice(1);
+
+  const menuTitle = (pathName: string) => {
+    if (pathName.startsWith('talk/')) {
+      return '대화하기';
+    }
+    switch (pathName) {
+      case 'tip':
+        return '학습 Tip';
+      case 'talkList':
+      case 'talk':
+        return '대화하기';
+      case 'mypage':
+        return '마이페이지';
+      case 'service':
+        return '서비스 소개';
+      default:
+        return 'ARTalker';
+    }
+  };
 
   return (
     <div>
-      {pageName === '홈' || pageName === undefined ? (
+      {pathName === '' || pathName === undefined ? (
         <div className='flex justify-between items-center p-3 h-16'>
           <img src={logo} alt='logo' />
           <div
             className='flex items-center cursor-pointer'
-            onClick={() =>
-              navigate('/mypage', { state: { pageName: '마이페이지' } })
-            }
+            onClick={() => navigate('/mypage')}
           >
             <span className='text-[#082E57]'>아트토커</span>
             <span className='text-[#999999] ml-1'>님</span>
@@ -31,7 +48,7 @@ const NavBar = () => {
             <ChevronLeftIcon className='size-6' />
           </div>
           <div className='absolute left-1/2 transform -translate-x-1/2 font-semibold text-[16px] text-[#3D3D3D]'>
-            {pageName}
+            {menuTitle(pathName)}
           </div>
         </div>
       )}

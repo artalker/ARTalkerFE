@@ -7,7 +7,7 @@ const LearningTip = () => {
     <section className='mt-[25px] mb-[30px]'>
       <div
         onClick={() => {
-          navigate('/tip', { state: { pageName: '학습 Tip' } });
+          navigate('/tip');
         }}
         className='w-[335px] min-h-[142px] bg-gradient-to-r from-[#4B6FBF]/10 to-[#A857F7]/10 rounded-lg p-4'
       >

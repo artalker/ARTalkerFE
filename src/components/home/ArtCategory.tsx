@@ -66,14 +66,7 @@ const ArtCategory = () => {
         {categoryList.map((category, index: number) => {
           return (
             activeCategory === category?.no && (
-              <div
-                key={index}
-                onClick={() =>
-                  navigate(`/talk/${category.no}`, {
-                    state: { pageName: '대화하기' },
-                  })
-                }
-              >
+              <div key={index} onClick={() => navigate(`/talk/${category.no}`)}>
                 <img
                   src={category.img}
                   alt={category.name}

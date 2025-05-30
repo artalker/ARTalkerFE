@@ -29,9 +29,7 @@ const Carousel = () => {
         {bannerList.map((banner, index) => (
           <div
             key={index}
-            onClick={() =>
-              navigate(`/service`, { state: { pageName: '서비스 소개' } })
-            }
+            onClick={() => navigate(`/service`)}
             className='flex justify-center cursor-pointer'
           >
             <img src={banner} alt={`banner-${index + 1}`} />

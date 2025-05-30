@@ -74,7 +74,7 @@ const BottomNavigation = () => {
           <div
             key={menu.no}
             onClick={() => {
-              navigate(menu.path, { state: { pageName: menu.name } });
+              navigate(menu.path);
               setIsClicked(menu.path);
             }}
             className='flex flex-col justify-center items-center cursor-pointer'
