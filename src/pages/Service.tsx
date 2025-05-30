@@ -453,11 +453,11 @@ const Service = () => {
         </div>
       </section>
       {/* 자주 묻는 질문 */}
-      <section className='w-full flex flex-col justify-start items-center  px-[17px] py-[50px] bg-white'>
+      <section className='w-full flex flex-col justify-center items-center px-[17px] py-[50px] bg-white'>
         <h2 className='text-[18px] font-semibold text-[#3D3D3D] mb-[30px]'>
           자주 묻는 질문
         </h2>
-        <div className='w-full'>
+        <div className='w-full '>
           {faqs.map((faq, index) => (
             <div
               key={index}
