@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import Loading from '../../assets/Loading.gif';
 import AIMessage from './AiMessage';
 import UserMessage from './UserMessage';
+// import { usePostAIMessageData } from '@/api/useTalk';
 
 interface TalkDataInfoProps {
   isExpanded: boolean;
@@ -18,6 +19,8 @@ const TalkDataInfo = ({
   isEnd,
   isResultLoading,
 }: TalkDataInfoProps) => {
+  // const { mutate: postAIMessageData } = usePostAIMessageData();
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const aiMessageData = [

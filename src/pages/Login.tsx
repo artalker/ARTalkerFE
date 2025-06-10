@@ -4,6 +4,16 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/');
+    sessionStorage.setItem('id', '8');
+    sessionStorage.setItem('name', 'seo jiwoon');
+    sessionStorage.setItem('profileImage', 'examdfsafasdsaple');
+    sessionStorage.setItem('level', '1');
+    sessionStorage.setItem('experience', '0');
+  };
+
   return (
     <div className='w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>
       <div className='w-full max-w-[667px] min-w-[355px] bg-white h-screen'>
@@ -28,7 +38,7 @@ const Login = () => {
           </div>
           <div className='absolute bottom-[84px] w-full flex flex-col justify-start items-center px-[24px]'>
             <button
-              onClick={() => navigate('/')}
+              onClick={handleLogin}
               className='w-full flex flex-col justify-center items-center bg-[#FEE500] h-[48px] rounded-[8px]'
             >
               <p className='text-[16px] font-semibold text-[#333333]'>

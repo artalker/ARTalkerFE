@@ -7,21 +7,31 @@ const Progress = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & {
     standardValue: number;
   }
->(({ className, value, standardValue, ...props }, ref) => (
-  <ProgressPrimitive.Root
-    ref={ref}
-    className={cn(
-      'relative h-2 w-full overflow-hidden rounded-full bg-[#D8D8D8]',
-      className
-    )}
-    {...props}
-  >
-    <ProgressPrimitive.Indicator
-      className='h-full w-full flex-1 bg-[#6366F1] transition-all rounded-full '
-      style={{ transform: `translateX(-${standardValue - (value || 0)}%)` }}
-    />
-  </ProgressPrimitive.Root>
-));
+>(({ className, value = 0, standardValue, ...props }, ref) => {
+  const progressPercentage = Math.min(
+    100,
+    Math.max(0, (value / standardValue) * 100)
+  );
+  const translateX = 100 - progressPercentage;
+
+  return (
+    <ProgressPrimitive.Root
+      ref={ref}
+      className={cn(
+        'relative h-2 w-full overflow-hidden rounded-full bg-[#D8D8D8]',
+        className
+      )}
+      {...props}
+    >
+      <ProgressPrimitive.Indicator
+        className='h-full w-full flex-1 bg-[#6366F1] transition-all rounded-full'
+        style={{
+          transform: `translateX(-${translateX}%)`,
+        }}
+      />
+    </ProgressPrimitive.Root>
+  );
+});
 Progress.displayName = ProgressPrimitive.Root.displayName;
 
 export { Progress };
@@ -33,7 +43,7 @@ interface CustomProgressProps {
 }
 
 const TalkProgress: React.FC<CustomProgressProps> = ({
-  value = 80,
+  value,
   className = 'h-[6px] w-[335px]',
   userLevel,
 }) => {

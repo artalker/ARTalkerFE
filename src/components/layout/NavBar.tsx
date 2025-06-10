@@ -6,6 +6,7 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const pathName = location.pathname.slice(1);
+  const userName = sessionStorage.getItem('name');
 
   const menuTitle = (pathName: string) => {
     if (pathName.startsWith('talk/')) {
@@ -35,7 +36,7 @@ const NavBar = () => {
             className='flex items-center cursor-pointer'
             onClick={() => navigate('/mypage')}
           >
-            <span className='text-[#082E57]'>아트토커</span>
+            <span className='text-[#082E57]'>{userName}</span>
             <span className='text-[#999999] ml-1'>님</span>
           </div>
         </div>

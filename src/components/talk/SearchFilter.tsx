@@ -25,16 +25,16 @@ const FilterButton: React.FC<FilterButtonProps> = ({
 
 interface SearchFilterProps {
   categories: string[];
-  levels: string[];
+  levels: number;
   onCategoryChange: (category: string) => void;
-  onLevelChange: (level: string) => void;
+  setTalkLv: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SearchFilter: React.FC<SearchFilterProps> = ({
   categories,
   levels,
   onCategoryChange,
-  onLevelChange,
+  setTalkLv,
 }) => {
   const categoryOptions = [
     { value: '', label: '전체' },
@@ -45,12 +45,11 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
   ];
 
   const levelOptions = [
-    { value: '', label: '전체' },
-    { value: '1', label: 'Lv.01' },
-    { value: '2', label: 'Lv.02' },
-    { value: '3', label: 'Lv.03' },
-    { value: '4', label: 'Lv.04' },
-    { value: '5', label: 'Lv.05' },
+    { value: 1, label: 'Lv.01' },
+    { value: 2, label: 'Lv.02' },
+    { value: 3, label: 'Lv.03' },
+    { value: 4, label: 'Lv.04' },
+    { value: 5, label: 'Lv.05' },
   ];
 
   // 전체 선택 버튼 고정값
@@ -108,27 +107,9 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
               <FilterButton
                 key={option.value}
                 label={option.label}
-                isSelected={
-                  option.value === ''
-                    ? hasAllSelected(levels)
-                    : !hasAllSelected(levels) && levels.includes(option.value)
-                }
+                isSelected={levels === option.value}
                 onClick={() => {
-                  if (option.value === '') {
-                    onLevelChange('');
-                  } else {
-                    if (hasAllSelected(levels)) {
-                      onLevelChange(option.value);
-                    } else {
-                      if (levels.includes(option.value)) {
-                        onLevelChange(
-                          levels.filter((lev) => lev !== option.value).join(',')
-                        );
-                      } else {
-                        onLevelChange([...levels, option.value].join(','));
-                      }
-                    }
-                  }
+                  setTalkLv(option.value);
                 }}
               />
             ))}

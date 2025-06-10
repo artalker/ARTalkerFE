@@ -7,13 +7,20 @@ interface TalkAiProps {
   setIsStart: (isStart: boolean) => void;
   isExpanded: boolean;
   isEnd: boolean;
+  // conversationId: string | number;
 }
 
 interface TalkUserData {
   message: string;
 }
 
-const TalkAi = ({ isStart, setIsStart, isExpanded, isEnd }: TalkAiProps) => {
+const TalkAi = ({
+  isStart,
+  setIsStart,
+  isExpanded,
+  isEnd,
+}: // conversationId,
+TalkAiProps) => {
   const [talkUserData, setTalkUserData] = useState<TalkUserData[]>([]);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
 
