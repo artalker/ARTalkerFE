@@ -4,6 +4,7 @@ import SpeechRecognition, {
 } from 'react-speech-recognition';
 import { MicrophoneIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import Loading from '../../assets/Loading.gif';
+import { usePostUserMessageData } from '@/api/useTalk';
 
 interface TalkInputProps {
   isStart: boolean;
@@ -12,6 +13,9 @@ interface TalkInputProps {
   isEnd: boolean;
   isAiLoading: boolean;
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleStartAIMessageData: () => void;
+  conversationId: string | number;
+  setAiMessageData: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const TalkInput = ({
@@ -21,6 +25,9 @@ const TalkInput = ({
   isEnd,
   isAiLoading,
   setIsAiLoading,
+  handleStartAIMessageData,
+  conversationId,
+  setAiMessageData,
 }: TalkInputProps) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
@@ -28,6 +35,8 @@ const TalkInput = ({
   const [lastTranscript, setLastTranscript] = useState<string>('');
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { mutate: postUserMessageMutate } = usePostUserMessageData();
 
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
@@ -54,13 +63,37 @@ const TalkInput = ({
   };
 
   const handleSend = () => {
+    setIsAiLoading(true);
+    setTalkUserData((prev) => [...prev, { message: input }]);
     if (input.trim()) {
-      setIsAiLoading(true);
-      setTalkUserData((prev) => [...prev, { message: input }]);
-      setInput('');
-      resetTranscript();
-      setLastTranscript('');
-      setIsRecording(false);
+      postUserMessageMutate(
+        {
+          conversationId: conversationId,
+          sender: 'user',
+          content: input,
+        },
+        {
+          onSuccess: (res) => {
+            console.log('사용자 응답:', res);
+            setAiMessageData((prev) => [
+              ...prev,
+              {
+                aiMessage: res?.content || '응답을 받아오지 못했습니다.',
+                time: res?.timestamp || new Date().toISOString(),
+              },
+            ]);
+            setIsAiLoading(false);
+            setInput('');
+            resetTranscript();
+            setLastTranscript('');
+            setIsRecording(false);
+          },
+          onError: (err) => {
+            console.error('사용자 응답 중 오류 발생:', err);
+            setIsAiLoading(false);
+          },
+        }
+      );
     }
   };
 
@@ -77,7 +110,7 @@ const TalkInput = ({
   }, []);
 
   useEffect(() => {
-    if (listening && transcript) {
+    if (listening && transcript && !isAiLoading) {
       if (transcript !== lastTranscript) {
         if (
           transcript.length > lastTranscript.length &&
@@ -99,7 +132,7 @@ const TalkInput = ({
         }, 0);
       }
     }
-  }, [listening, transcript, lastTranscript]);
+  }, [listening, transcript, lastTranscript, isAiLoading]);
 
   return (
     <div className='fixed bottom-[0px] left-1/2 transform -translate-x-1/2 max-w-[667px] w-full h-[60px] bg-[#FFFFFF] border-[1px] border-[#E5E5E5]'>
@@ -107,10 +140,10 @@ const TalkInput = ({
         <div className='w-full h-full flex justify-center items-center'>
           <button
             onClick={() => {
-              setIsStart(true);
-              setIsAiLoading(false);
+              handleStartAIMessageData();
+              setIsAiLoading(true);
             }}
-            className='w-[321px] h-[47px] flex flex-col justify-center items-center bg-[#6366F1] text-[#FFFFFF] rounded-[8px]'
+            className='w-[321px] h-[47px] flex flex-col justify-center items-center bg-[#6366F1] text-[#FFFFFF] rounded-[8px] cursor-pointer'
           >
             <p className='text-[14px] font-semibold'>START</p>
             <p className='text-[10px]'>
@@ -143,13 +176,15 @@ const TalkInput = ({
               ref={inputRef}
               value={input}
               onChange={(e) => {
-                const value = e.target.value;
-                if (!/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
-                  setInput(value);
-                  resetTranscript();
-                  setLastTranscript('');
-                } else {
-                  e.currentTarget.value = input;
+                if (!isAiLoading) {
+                  const value = e.target.value;
+                  if (!/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
+                    setInput(value);
+                    resetTranscript();
+                    setLastTranscript('');
+                  } else {
+                    e.currentTarget.value = input;
+                  }
                 }
               }}
               onKeyPress={handleEnterKey}

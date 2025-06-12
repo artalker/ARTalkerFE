@@ -2,7 +2,13 @@ import { FaceSmileIcon } from '@heroicons/react/24/outline';
 import { PlayPauseIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
-const AIMessage = ({ message }: { message: string }) => {
+const AIMessage = ({
+  message,
+  setIsAiLoading,
+}: {
+  message: string;
+  setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const speakMessage = () => {
@@ -20,6 +26,7 @@ const AIMessage = ({ message }: { message: string }) => {
     // 음성이 끝났을 때 상태 변경
     utterance.onend = () => {
       setIsPlaying(false);
+      setIsAiLoading(false);
     };
 
     // 음성을 재생
@@ -32,10 +39,12 @@ const AIMessage = ({ message }: { message: string }) => {
       // 재생 중일 때 정지
       window.speechSynthesis.cancel();
       setIsPlaying(false);
+      setIsAiLoading(false);
     } else {
       // 정지 중일 때 재생
       speakMessage();
       setIsPlaying(true);
+      setIsAiLoading(true);
     }
   };
 

@@ -1,8 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import Loading from '../../assets/Loading.gif';
 import AIMessage from './AiMessage';
 import UserMessage from './UserMessage';
-// import { usePostAIMessageData } from '@/api/useTalk';
 
 interface TalkDataInfoProps {
   isExpanded: boolean;
@@ -10,6 +9,9 @@ interface TalkDataInfoProps {
   isStart: boolean;
   isEnd: boolean;
   isResultLoading: boolean;
+  aiMessageData: any[];
+  setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  scrollContainerRef: React.RefObject<HTMLDivElement>;
 }
 
 const TalkDataInfo = ({
@@ -18,16 +20,10 @@ const TalkDataInfo = ({
   isStart,
   isEnd,
   isResultLoading,
+  aiMessageData,
+  setIsAiLoading,
+  scrollContainerRef,
 }: TalkDataInfoProps) => {
-  // const { mutate: postAIMessageData } = usePostAIMessageData();
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  const aiMessageData = [
-    { aiMessage: 'How many people can you see in this painting?' },
-  ];
-
-  // AI와 사용자 메시지를 번갈아가며 합치기, 데이터작업 완료 후 제거
   const combinedMessages = [];
   const maxLength = Math.max(talkUserData.length, aiMessageData.length);
 
@@ -48,13 +44,12 @@ const TalkDataInfo = ({
     }
   }
 
-  // 메시지가 변경될 때마다 스크롤을 마지막으로 이동
   useEffect(() => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop =
         scrollContainerRef.current.scrollHeight;
     }
-  }, [talkUserData]);
+  }, [aiMessageData, talkUserData]);
 
   return (
     <div
@@ -78,7 +73,10 @@ const TalkDataInfo = ({
                 } mb-4`}
               >
                 {message.type === 'ai' ? (
-                  <AIMessage message={message.message} />
+                  <AIMessage
+                    message={message.message}
+                    setIsAiLoading={setIsAiLoading}
+                  />
                 ) : (
                   <UserMessage message={message.message} />
                 )}

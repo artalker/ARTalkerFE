@@ -16,13 +16,12 @@ const Talk = () => {
   const [isEnd, setIsEnd] = useState<boolean>(false);
   const [time, setTime] = useState<number>(300); // 5분 = 300초
   const [isExpanded, setIsExpanded] = useState<boolean>(true); //상세보기 닫기
+  const [conversationId, setConversationId] = useState<string | number>();
 
   const { mutate: talkMutate } = useTalkCreateData();
   const { data: talkItemData } = useTalkItemData(id);
   const userId = sessionStorage.getItem('id');
   const userLevel = sessionStorage.getItem('level');
-
-  // let conversationId;
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -81,7 +80,7 @@ const Talk = () => {
         {
           onSuccess: (res) => {
             console.log('대화 생성에 성공했습니다.', res);
-            // conversationId = res.id;
+            setConversationId(res?.id);
           },
           onError: () => {
             console.error('대화 생성에 실패했습니다.');
@@ -108,7 +107,7 @@ const Talk = () => {
             isEnd={isEnd}
             isExpanded={isExpanded}
             setIsStart={setIsStart}
-            // conversationId={conversationId}
+            conversationId={conversationId}
           />
           {isStart && (
             <TalkEndButton time={time} isEnd={isEnd} setIsEnd={setIsEnd} />

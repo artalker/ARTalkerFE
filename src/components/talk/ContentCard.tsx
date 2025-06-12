@@ -56,10 +56,10 @@ const ContentCard = ({
               <div className='flex justify-between'>
                 <div>
                   <p className='text-[14px] font-semibold text-[#3D3D3D] line-clamp-1'>
-                    {isEnglish ? content.title_en : content.title_ko}
+                    {isEnglish ? content?.title_en : content?.title_ko}
                   </p>
                   <p className='text-[12px] text-[#ABABAB]'>
-                    {content.artist} - {content.year}
+                    {content?.artist} - {content?.year}
                   </p>
                   <TalkLvLabel talkLv={difficulty} />
                 </div>
@@ -68,7 +68,7 @@ const ContentCard = ({
                 </p>
               </div>
               <p className='text-[10px] text-[#ABABAB] mt-[5px]'>
-                {isEnglish ? content.description_en : content.description_ko}
+                {isEnglish ? content?.description_en : content?.description_ko}
               </p>
             </div>
             <div className='absolute bottom-[-13px] left-0 w-full h-[50px] flex justify-center items-center'>
