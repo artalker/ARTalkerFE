@@ -16,6 +16,7 @@ interface TalkInputProps {
   handleStartAIMessageData: () => void;
   conversationId: string | number;
   setAiMessageData: React.Dispatch<React.SetStateAction<any[]>>;
+  aiMessageData: any[];
 }
 
 const TalkInput = ({
@@ -28,6 +29,7 @@ const TalkInput = ({
   handleStartAIMessageData,
   conversationId,
   setAiMessageData,
+  aiMessageData,
 }: TalkInputProps) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
@@ -71,6 +73,7 @@ const TalkInput = ({
           conversationId: conversationId,
           sender: 'user',
           content: input,
+          responseId: aiMessageData[aiMessageData.length - 1].responseId,
         },
         {
           onSuccess: (res) => {
@@ -80,6 +83,7 @@ const TalkInput = ({
               {
                 aiMessage: res?.content || '응답을 받아오지 못했습니다.',
                 time: res?.timestamp || new Date().toISOString(),
+                responseId: res?.responseId,
               },
             ]);
             setIsAiLoading(false);

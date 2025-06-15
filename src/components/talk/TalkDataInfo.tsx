@@ -12,6 +12,7 @@ interface TalkDataInfoProps {
   aiMessageData: any[];
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
   scrollContainerRef: React.RefObject<HTMLDivElement>;
+  handleStartAIMessageData: () => void;
 }
 
 const TalkDataInfo = ({
@@ -23,6 +24,7 @@ const TalkDataInfo = ({
   aiMessageData,
   setIsAiLoading,
   scrollContainerRef,
+  handleStartAIMessageData,
 }: TalkDataInfoProps) => {
   const combinedMessages = [];
   const maxLength = Math.max(talkUserData.length, aiMessageData.length);
@@ -90,7 +92,13 @@ const TalkDataInfo = ({
                   <p className='text-[10px]'>
                     대화양이 부족하여 대화분석이 불가합니다. 다시 시도해주세요.
                   </p>
-                  <button className='bg-[#A855F7] text-[#FFFFFF] text-[10px] leading-[10px] font-semibold p-[8px] rounded-[4px]'>
+                  <button
+                    onClick={() => {
+                      handleStartAIMessageData();
+                      setIsAiLoading(true);
+                    }}
+                    className='bg-[#A855F7] text-[#FFFFFF] text-[10px] leading-[10px] font-semibold p-[8px] rounded-[4px]'
+                  >
                     다시하기
                   </button>
                 </div>

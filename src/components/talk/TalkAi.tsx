@@ -48,6 +48,7 @@ const TalkAi = ({
           {
             aiMessage: res?.content || '응답을 받아오지 못했습니다.',
             time: res?.timestamp || new Date().toISOString(),
+            responseId: res?.responseId,
           },
         ]);
         setIsStart(true);
@@ -74,6 +75,7 @@ const TalkAi = ({
         aiMessageData={aiMessageData}
         setIsAiLoading={setIsAiLoading}
         scrollContainerRef={scrollContainerRef}
+        handleStartAIMessageData={handleStartAIMessageData}
       />
 
       {/* 대화 입력창 */}
@@ -87,6 +89,7 @@ const TalkAi = ({
         handleStartAIMessageData={handleStartAIMessageData}
         conversationId={conversationId}
         setAiMessageData={setAiMessageData}
+        aiMessageData={aiMessageData}
       />
       {/* error 모달 */}
       <Dialog open={isErrModalOpen} onOpenChange={setIsErrModalOpen}>
