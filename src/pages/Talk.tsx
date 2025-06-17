@@ -5,7 +5,11 @@ import TalkAi from '../components/talk/TalkAi';
 import NavBar from '../components/layout/NavBar';
 import TalkEndButton from '../components/talk/TalkEndButton';
 import { useLocation, useParams } from 'react-router-dom';
-import { useTalkItemData, useTalkCreateData } from '@/api/useTalk';
+import {
+  useTalkItemData,
+  useTalkCreateData,
+  usePatchEndConversation,
+} from '@/api/useTalk';
 
 const Talk = () => {
   const location = useLocation();
@@ -22,6 +26,21 @@ const Talk = () => {
   const { data: talkItemData } = useTalkItemData(id);
   const userId = sessionStorage.getItem('id');
   const userLevel = sessionStorage.getItem('level');
+
+  const { mutate: endConversationMutate } = usePatchEndConversation();
+
+  const handleEndConversation = () => {
+    if (!conversationId) return;
+    endConversationMutate(conversationId, {
+      onSuccess: () => {
+        setIsEnd(true);
+      },
+      onError: () => {
+        setIsEnd(false);
+        alert('대화 종료에 실패했습니다.');
+      },
+    });
+  };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -89,6 +108,12 @@ const Talk = () => {
       );
     }
   }, [id]);
+
+  useEffect(() => {
+    if (isEnd) {
+      handleEndConversation();
+    }
+  }, [isEnd]);
 
   return (
     <div className='relative w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>

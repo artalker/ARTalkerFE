@@ -5,11 +5,11 @@ import SpeechRecognition, {
 import { MicrophoneIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import Loading from '../../assets/Loading.gif';
 import { usePostUserMessageData } from '@/api/useTalk';
+import { useAtom } from 'jotai';
+import { isPlayingAtom } from '@/hook/atom/talkAtom';
 
 interface TalkInputProps {
   isStart: boolean;
-  setIsStart: (isStart: boolean) => void;
-  setTalkUserData: React.Dispatch<React.SetStateAction<any[]>>;
   isEnd: boolean;
   isAiLoading: boolean;
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,12 +17,12 @@ interface TalkInputProps {
   conversationId: string | number;
   setAiMessageData: React.Dispatch<React.SetStateAction<any[]>>;
   aiMessageData: any[];
+  refetchTalkMessageData: () => void;
+  setIsStart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TalkInput = ({
   isStart,
-  setIsStart,
-  setTalkUserData,
   isEnd,
   isAiLoading,
   setIsAiLoading,
@@ -30,7 +30,10 @@ const TalkInput = ({
   conversationId,
   setAiMessageData,
   aiMessageData,
+  refetchTalkMessageData,
+  setIsStart,
 }: TalkInputProps) => {
+  const [isPlaying] = useAtom(isPlayingAtom);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
   const [permissionError, setPermissionError] = useState<string | null>(null);
@@ -43,20 +46,17 @@ const TalkInput = ({
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
   const handleMicClick = async () => {
+    if (isPlaying) return;
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
       stream.getTracks().forEach((track) => track.stop());
 
-      if (!isRecording) {
-        SpeechRecognition.startListening({
-          continuous: true,
-          language: 'en-US',
-        });
-        setIsRecording(true);
-      } else {
-        SpeechRecognition.stopListening();
-        setIsRecording(false);
-      }
+      await SpeechRecognition.startListening({
+        continuous: true,
+        language: 'en-US',
+      });
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : '마이크 권한이 거부되었습니다.';
@@ -66,7 +66,6 @@ const TalkInput = ({
 
   const handleSend = () => {
     setIsAiLoading(true);
-    setTalkUserData((prev) => [...prev, { message: input }]);
     if (input.trim()) {
       postUserMessageMutate(
         {
@@ -91,6 +90,7 @@ const TalkInput = ({
             resetTranscript();
             setLastTranscript('');
             setIsRecording(false);
+            refetchTalkMessageData();
           },
           onError: (err) => {
             console.error('사용자 응답 중 오류 발생:', err);
@@ -114,7 +114,7 @@ const TalkInput = ({
   }, []);
 
   useEffect(() => {
-    if (listening && transcript && !isAiLoading) {
+    if (listening && transcript && !isAiLoading && !isPlaying) {
       if (transcript !== lastTranscript) {
         if (
           transcript.length > lastTranscript.length &&
@@ -136,7 +136,30 @@ const TalkInput = ({
         }, 0);
       }
     }
-  }, [listening, transcript, lastTranscript, isAiLoading]);
+  }, [listening, transcript, lastTranscript, isAiLoading, isPlaying]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      setIsRecording(false);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+      const length = inputRef.current.value.length;
+      inputRef.current.setSelectionRange(length, length);
+      inputRef.current.scrollLeft = inputRef.current.scrollWidth;
+    }
+  }, [input]);
+
+  useEffect(() => {
+    if (isRecording) {
+      handleMicClick();
+    } else {
+      SpeechRecognition.stopListening();
+    }
+  }, [isRecording]);
 
   return (
     <div className='fixed bottom-[0px] left-1/2 transform -translate-x-1/2 max-w-[667px] w-full h-[60px] bg-[#FFFFFF] border-[1px] border-[#E5E5E5]'>
@@ -144,9 +167,13 @@ const TalkInput = ({
         <div className='w-full h-full flex justify-center items-center'>
           <button
             onClick={() => {
-              handleStartAIMessageData();
-              setIsAiLoading(true);
+              setIsStart(true);
+              if (!isStart) {
+                handleStartAIMessageData();
+                setIsAiLoading(true);
+              }
             }}
+            disabled={isStart}
             className='w-[321px] h-[47px] flex flex-col justify-center items-center bg-[#6366F1] text-[#FFFFFF] rounded-[8px] cursor-pointer'
           >
             <p className='text-[14px] font-semibold'>START</p>
@@ -166,7 +193,9 @@ const TalkInput = ({
         <div className='relative w-full h-full flex justify-center items-center p-[10px] gap-[12px]'>
           <div className='w-full h-[47px] flex items-center p-[4px] bg-[#F5F5F6] rounded-[50px] px-[12px]'>
             <button
-              onClick={handleMicClick}
+              onClick={() => {
+                setIsRecording(!isRecording);
+              }}
               className={`${isRecording ? 'text-[#6366F1]' : 'text-[#ABABAB]'}`}
             >
               <MicrophoneIcon className='w-[24px] h-[24px]' />
@@ -180,7 +209,7 @@ const TalkInput = ({
               ref={inputRef}
               value={input}
               onChange={(e) => {
-                if (!isAiLoading) {
+                if (!isAiLoading && !isPlaying) {
                   const value = e.target.value;
                   if (!/[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(value)) {
                     setInput(value);

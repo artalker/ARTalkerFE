@@ -1,15 +1,17 @@
+import { converDateSimpleYearFullDate } from '@/utils/dateConvert';
 import { FaceSmileIcon } from '@heroicons/react/24/outline';
 import { PlayPauseIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { isPlayingAtom } from '@/hook/atom/talkAtom';
 
 const AIMessage = ({
   message,
   setIsAiLoading,
 }: {
-  message: string;
+  message: any;
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
 
   const speakMessage = () => {
     if (!window.speechSynthesis) {
@@ -17,7 +19,7 @@ const AIMessage = ({
       return;
     }
 
-    const utterance = new SpeechSynthesisUtterance(message);
+    const utterance = new SpeechSynthesisUtterance(message.content);
     utterance.lang = 'en-US'; // 영어로 읽기
     utterance.rate = 1; // 속도 (0.1 ~ 10)
     utterance.pitch = 1; // 음높이 (0 ~ 2)
@@ -60,7 +62,7 @@ const AIMessage = ({
         {/* 메시지 말풍선 */}
         <div className='bg-[#4F46E5] rounded-tl-none text-white px-4 py-3 rounded-2xl min-w-[100px] max-w-[300px]'>
           <p className='whitespace-pre-line text-[15px] leading-relaxed font-medium'>
-            {message}
+            {message?.content}
           </p>
         </div>
 
@@ -94,7 +96,9 @@ const AIMessage = ({
 
           {/* 오른쪽 시간 */}
           <div className='flex items-center gap-3 text-[#999999] text-[13px]'>
-            <span className='text-[8px]'>14:32</span>
+            <span className='text-[8px]'>
+              {converDateSimpleYearFullDate(message?.timestamp)}
+            </span>
           </div>
         </div>
       </div>

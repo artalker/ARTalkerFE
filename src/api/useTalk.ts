@@ -79,3 +79,31 @@ export const usePostUserMessageData = () => {
     },
   });
 };
+
+//* 대화 내역
+export const useTalkMessageData = (id: string | number) => {
+  return useQuery({
+    queryKey: ['talkMessageData', id],
+    queryFn: async () => {
+      const response = await Axios.get(
+        `${import.meta.env.VITE_APP_API_URL}/messages/${id}`
+      );
+      return response.data;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+  });
+};
+
+//* 대화종료 요청
+export const usePatchEndConversation = () => {
+  return useMutation({
+    mutationFn: async (id: string | number) => {
+      const response = await Axios.patch(
+        `${import.meta.env.VITE_APP_API_URL}/conversations/${id}/end`
+      );
+      return response.data;
+    },
+  });
+};

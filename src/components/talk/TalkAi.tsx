@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import TalkInput from './TalkInput';
 import TalkDataInfo from './TalkDataInfo';
-import { usePostAIMessageData } from '@/api/useTalk';
+import { usePostAIMessageData, useTalkMessageData } from '@/api/useTalk';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import TalkResult from './TalkResult';
 
 interface TalkAiProps {
   isStart: boolean;
@@ -18,10 +19,6 @@ interface TalkAiProps {
   isExpanded: boolean;
   isEnd: boolean;
   conversationId: string | number;
-}
-
-interface TalkUserData {
-  message: string;
 }
 
 const TalkAi = ({
@@ -32,13 +29,17 @@ const TalkAi = ({
   conversationId,
 }: TalkAiProps) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [talkUserData, setTalkUserData] = useState<TalkUserData[]>([]);
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
   const [isErrModalOpen, setIsErrModalOpen] = useState<boolean>(false);
   const [aiMessageData, setAiMessageData] = useState<
     Array<{ aiMessage: string; time?: string }>
   >([]);
+
+  const [isResultModalOpen, setIsResultModalOpen] = useState<boolean>(false);
+
   const { mutate: postAIMessageData } = usePostAIMessageData();
+  const { data: talkMessageData, refetch: refetchTalkMessageData } =
+    useTalkMessageData(conversationId);
 
   const handleStartAIMessageData = () => {
     postAIMessageData(conversationId, {
@@ -51,8 +52,8 @@ const TalkAi = ({
             responseId: res?.responseId,
           },
         ]);
-        setIsStart(true);
         setIsAiLoading(false);
+        refetchTalkMessageData();
       },
       onError: (err) => {
         console.error('AI 메시지 로딩 중 오류 발생:', err);
@@ -68,21 +69,18 @@ const TalkAi = ({
       {/* 대화 내용 */}
       <TalkDataInfo
         isExpanded={isExpanded}
-        talkUserData={talkUserData}
         isStart={isStart}
         isEnd={isEnd}
-        isResultLoading={isAiLoading}
-        aiMessageData={aiMessageData}
         setIsAiLoading={setIsAiLoading}
         scrollContainerRef={scrollContainerRef}
         handleStartAIMessageData={handleStartAIMessageData}
+        setIsResultModalOpen={setIsResultModalOpen}
+        talkMessageData={talkMessageData}
       />
 
       {/* 대화 입력창 */}
       <TalkInput
         isStart={isStart}
-        setIsStart={setIsStart}
-        setTalkUserData={setTalkUserData}
         isEnd={isEnd}
         isAiLoading={isAiLoading}
         setIsAiLoading={setIsAiLoading}
@@ -90,6 +88,8 @@ const TalkAi = ({
         conversationId={conversationId}
         setAiMessageData={setAiMessageData}
         aiMessageData={aiMessageData}
+        refetchTalkMessageData={refetchTalkMessageData}
+        setIsStart={setIsStart}
       />
       {/* error 모달 */}
       <Dialog open={isErrModalOpen} onOpenChange={setIsErrModalOpen}>
@@ -107,6 +107,12 @@ const TalkAi = ({
               닫기
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      {/* 결과 모달 */}
+      <Dialog open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
+        <DialogContent className='sm:max-w-[552px] max-h-[667px] bg-[#F9FAFB]'>
+          <TalkResult />
         </DialogContent>
       </Dialog>
     </>
