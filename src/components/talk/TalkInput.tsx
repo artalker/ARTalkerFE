@@ -52,11 +52,14 @@ const TalkInput = ({
         audio: true,
       });
       stream.getTracks().forEach((track) => track.stop());
-
-      await SpeechRecognition.startListening({
-        continuous: true,
-        language: 'en-US',
-      });
+      if (isRecording) {
+        await SpeechRecognition.startListening({
+          continuous: true,
+          language: 'en-US',
+        });
+      } else {
+        SpeechRecognition.stopListening();
+      }
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : '마이크 권한이 거부되었습니다.';
@@ -156,7 +159,7 @@ const TalkInput = ({
   useEffect(() => {
     if (isRecording) {
       handleMicClick();
-    } else {
+    } else if (!isRecording) {
       SpeechRecognition.stopListening();
     }
   }, [isRecording]);
