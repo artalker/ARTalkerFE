@@ -33,18 +33,19 @@ const TalkInput = ({
   refetchTalkMessageData,
   setIsStart,
 }: TalkInputProps) => {
-  const [isPlaying] = useAtom(isPlayingAtom);
-  const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [input, setInput] = useState<string>('');
-  const [permissionError, setPermissionError] = useState<string | null>(null);
-  const [lastTranscript, setLastTranscript] = useState<string>('');
+  const [isPlaying] = useAtom(isPlayingAtom); //* ai 메시지 재생
+  const [isRecording, setIsRecording] = useState<boolean>(false); //* 마이크 사용
+  const [input, setInput] = useState<string>(''); //* 사용자 입력
+  const [permissionError, setPermissionError] = useState<string | null>(null); //* 마이크 권한 에러
+  const [lastTranscript, setLastTranscript] = useState<string>(''); //* 마지막 녹음
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); //* 사용자 입력 ref
 
-  const { mutate: postUserMessageMutate } = usePostUserMessageData();
+  const { mutate: postUserMessageMutate } = usePostUserMessageData(); //* 사용자 응답 post
 
-  const { transcript, resetTranscript, listening } = useSpeechRecognition();
+  const { transcript, resetTranscript, listening } = useSpeechRecognition(); //* 음성 인식
 
+  //* 마이크 사용 함수 핸들러
   const handleMicClick = async () => {
     if (isPlaying) return;
     try {
@@ -67,6 +68,7 @@ const TalkInput = ({
     }
   };
 
+  //* 사용자 응답
   const handleSend = () => {
     setIsAiLoading(true);
     if (input.trim()) {
@@ -75,7 +77,7 @@ const TalkInput = ({
           conversationId: conversationId,
           sender: 'user',
           content: input,
-          responseId: aiMessageData[aiMessageData.length - 1].responseId,
+          responseId: aiMessageData[aiMessageData.length - 1].responseId, //* ai메세지의 responseId를 함께 전달
         },
         {
           onSuccess: (res) => {
@@ -87,13 +89,13 @@ const TalkInput = ({
                 time: res?.timestamp || new Date().toISOString(),
                 responseId: res?.responseId,
               },
-            ]);
+            ]); //* 사용자가 응답 시 다음 ai메세지의 정보 저장
             setIsAiLoading(false);
             setInput('');
             resetTranscript();
             setLastTranscript('');
-            setIsRecording(false);
-            refetchTalkMessageData();
+            setIsRecording(false); //* 마이크 사용 중지
+            refetchTalkMessageData(); //* 대화만 다시 불러오기
           },
           onError: (err) => {
             console.error('사용자 응답 중 오류 발생:', err);
@@ -116,6 +118,7 @@ const TalkInput = ({
     }
   }, []);
 
+  //* 음성 인식
   useEffect(() => {
     if (listening && transcript && !isAiLoading && !isPlaying) {
       if (transcript !== lastTranscript) {
@@ -141,14 +144,16 @@ const TalkInput = ({
     }
   }, [listening, transcript, lastTranscript, isAiLoading, isPlaying]);
 
+  //* ai 재생 중 마이크 사용 중지
   useEffect(() => {
     if (isPlaying) {
       setIsRecording(false);
     }
   }, [isPlaying]);
 
+  //* 마이크 사용 중 입력창 포커스
   useEffect(() => {
-    if (inputRef.current) {
+    if (inputRef.current && isRecording) {
       inputRef.current.focus();
       const length = inputRef.current.value.length;
       inputRef.current.setSelectionRange(length, length);
@@ -156,6 +161,7 @@ const TalkInput = ({
     }
   }, [input]);
 
+  //* 마이크 사용 여부
   useEffect(() => {
     if (isRecording) {
       handleMicClick();
@@ -218,6 +224,7 @@ const TalkInput = ({
                     setInput(value);
                     resetTranscript();
                     setLastTranscript('');
+                    setIsRecording(false);
                   } else {
                     e.currentTarget.value = input;
                   }

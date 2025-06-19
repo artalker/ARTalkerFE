@@ -107,3 +107,19 @@ export const usePatchEndConversation = () => {
     },
   });
 };
+
+//* 대화 평가하기
+export const useTalkResultData = (id: string | number) => {
+  return useQuery({
+    queryKey: ['talkResultData', id],
+    queryFn: async () => {
+      const response = await Axios.get(
+        `${import.meta.env.VITE_APP_API_URL}/results?conversationId=${id}`
+      );
+      return response.data;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+  });
+};

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import AIMessage from './AiMessage';
 import UserMessage from './UserMessage';
+import { usePatchEndConversation } from '@/api/useTalk';
 
 interface TalkDataInfoProps {
   isExpanded: boolean;
@@ -11,6 +12,7 @@ interface TalkDataInfoProps {
   handleStartAIMessageData: () => void;
   setIsResultModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   talkMessageData: any[];
+  conversationId: string | number;
 }
 
 const TalkDataInfo = ({
@@ -22,7 +24,24 @@ const TalkDataInfo = ({
   handleStartAIMessageData,
   setIsResultModalOpen,
   talkMessageData,
+  conversationId,
 }: TalkDataInfoProps) => {
+  //* 대화 종료 시 conversatioId post요청
+  const { mutate: userTalkEndMutate } = usePatchEndConversation();
+
+  const handleEndConversation = () => {
+    if (!conversationId) return;
+    userTalkEndMutate(conversationId, {
+      onSuccess: () => {
+        setIsResultModalOpen(true);
+      },
+      onError: () => {
+        alert('대화 종료에 실패했습니다.');
+      },
+    });
+  };
+
+  //* 대화창 스크롤 항상 마지막으로 설정
   useEffect(() => {
     if (scrollContainerRef.current || isEnd) {
       scrollContainerRef.current.scrollTop =
@@ -88,7 +107,7 @@ const TalkDataInfo = ({
                     나왔습니다.
                   </p>
                   <button
-                    onClick={() => setIsResultModalOpen(true)}
+                    onClick={() => handleEndConversation()}
                     className='bg-[#A855F7] text-[#FFFFFF] text-[10px] leading-[10px] font-semibold p-[8px] rounded-[4px]'
                   >
                     결과보기

@@ -28,19 +28,20 @@ const TalkAi = ({
   isEnd,
   conversationId,
 }: TalkAiProps) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isAiLoading, setIsAiLoading] = useState<boolean>(false);
-  const [isErrModalOpen, setIsErrModalOpen] = useState<boolean>(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null); //* 대화창 스크롤
+  const [isAiLoading, setIsAiLoading] = useState<boolean>(false); //* AI 로딩
+  const [isErrModalOpen, setIsErrModalOpen] = useState<boolean>(false); //* error 모달
   const [aiMessageData, setAiMessageData] = useState<
     Array<{ aiMessage: string; time?: string }>
-  >([]);
+  >([]); //* AI 메시지
 
-  const [isResultModalOpen, setIsResultModalOpen] = useState<boolean>(false);
+  const [isResultModalOpen, setIsResultModalOpen] = useState<boolean>(false); //* 결과 모달
 
-  const { mutate: postAIMessageData } = usePostAIMessageData();
+  const { mutate: postAIMessageData } = usePostAIMessageData(); //* AI 메시지 시작 시  post
   const { data: talkMessageData, refetch: refetchTalkMessageData } =
-    useTalkMessageData(conversationId);
+    useTalkMessageData(conversationId); //* 대화 메시지 get
 
+  //* AI 메시지 시작
   const handleStartAIMessageData = () => {
     postAIMessageData(conversationId, {
       onSuccess: (res) => {
@@ -76,6 +77,7 @@ const TalkAi = ({
         handleStartAIMessageData={handleStartAIMessageData}
         setIsResultModalOpen={setIsResultModalOpen}
         talkMessageData={talkMessageData}
+        conversationId={conversationId}
       />
 
       {/* 대화 입력창 */}
@@ -112,7 +114,7 @@ const TalkAi = ({
       {/* 결과 모달 */}
       <Dialog open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
         <DialogContent className='sm:max-w-[552px] max-h-[667px] bg-[#F9FAFB]'>
-          <TalkResult />
+          <TalkResult conversationId={conversationId} />
         </DialogContent>
       </Dialog>
     </>

@@ -7,7 +7,7 @@ const UserMessage = ({ message }: { message: any }) => {
       {/* 텍스트 및 하단 컨테이너 */}
       <div className='flex flex-col gap-1'>
         {/* 메시지 말풍선 */}
-        <div className='bg-[#ffffff] border-[1px] border-[#ABAFBA] rounded-tr-none px-4 py-3 rounded-2xl min-w-[100px] max-w-[300px]'>
+        <div className='bg-[#ffffff] border-[1px] border-[#ABAFBA] rounded-tr-none px-4 py-3 rounded-2xl min-w-[100px] max-w-[300px]!important'>
           <p className='whitespace-pre-line text-[15px] leading-relaxed font-medium'>
             {message?.content}
           </p>
@@ -21,7 +21,7 @@ const UserMessage = ({ message }: { message: any }) => {
         </div>
       </div>
       {/* 아바타 */}
-      <div className='w-7 h-7 flex justify-center items-center rounded-full bg-[#ABABAB]'>
+      <div className='min-w-7 min-h-7 flex justify-center items-center rounded-full bg-[#ABABAB]'>
         <FaceSmileIcon className='w-5 h-5 text-white' />
       </div>
     </div>

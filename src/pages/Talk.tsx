@@ -5,43 +5,25 @@ import TalkAi from '../components/talk/TalkAi';
 import NavBar from '../components/layout/NavBar';
 import TalkEndButton from '../components/talk/TalkEndButton';
 import { useLocation, useParams } from 'react-router-dom';
-import {
-  useTalkItemData,
-  useTalkCreateData,
-  usePatchEndConversation,
-} from '@/api/useTalk';
+import { useTalkItemData, useTalkCreateData } from '@/api/useTalk';
 
 const Talk = () => {
   const location = useLocation();
-  const { id } = useParams();
-  const { difficulty } = location.state || { difficulty: 1 }; // 기본값 1로 설정
+  const { id } = useParams(); //* 작품 아이디
+  const { difficulty } = location.state || { difficulty: 1 }; //* 난이도
 
-  const [isStart, setIsStart] = useState<boolean>(false);
-  const [isEnd, setIsEnd] = useState<boolean>(false);
+  const [isStart, setIsStart] = useState<boolean>(false); //* 대화시작
+  const [isEnd, setIsEnd] = useState<boolean>(false); //* 대화종료
   const [time, setTime] = useState<number>(300); // 5분 = 300초
-  const [isExpanded, setIsExpanded] = useState<boolean>(true); //상세보기 닫기
-  const [conversationId, setConversationId] = useState<string | number>();
+  const [isExpanded, setIsExpanded] = useState<boolean>(true); //* 상세보기 닫기
+  const [conversationId, setConversationId] = useState<string | number>(); //* conversationId(대화생성시 채팅방 고유 아이디)
 
-  const { mutate: talkMutate } = useTalkCreateData();
-  const { data: talkItemData } = useTalkItemData(id);
-  const userId = sessionStorage.getItem('id');
-  const userLevel = sessionStorage.getItem('level');
+  const { mutate: talkMutate } = useTalkCreateData(); //* 대화 생성 시 채팅방 고유 아이디 저장
+  const { data: talkItemData } = useTalkItemData(id); //* 작품 정보
+  const userId = sessionStorage.getItem('id'); //* 사용자 아이디
+  const userLevel = sessionStorage.getItem('level'); //* 사용자 레벨
 
-  const { mutate: endConversationMutate } = usePatchEndConversation();
-
-  const handleEndConversation = () => {
-    if (!conversationId) return;
-    endConversationMutate(conversationId, {
-      onSuccess: () => {
-        setIsEnd(true);
-      },
-      onError: () => {
-        setIsEnd(false);
-        alert('대화 종료에 실패했습니다.');
-      },
-    });
-  };
-
+  //* 대화 시작 시 time 카운트
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
@@ -65,28 +47,14 @@ const Talk = () => {
     };
   }, [isStart]);
 
+  //* 대화 종료 시 time 초기화
   useEffect(() => {
     if (isEnd) {
       setTime(0);
     }
   }, [isEnd]);
 
-  // const content = {
-  //   id: 1234,
-  //   no: 0,
-  //   title: '몽마르트 대로, 봄',
-  //   name: '프란시스코 피사로',
-  //   img: CamillePissarro,
-  //   desc: 'Oil on canvas, 65cm *81cm',
-  //   content:
-  //     '몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. 피사로는 이 작품에서 봄의 아름다움을 표현했습니다.몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. 피사로는 이 작품에서 봄의 아름다움을 표현했습니다.몽마르트 대로, 봄은 프란시스코 피사로가 1897년에 그린 작품입니다. ',
-  //   year: '1897',
-  //   level: '1',
-  //   isCompleted: true,
-  //   score: 4,
-  //   date: '2025-05-21',
-  // };
-
+  //* 대화 생성 시 conversationId 저장
   useEffect(() => {
     if (id) {
       talkMutate(
@@ -98,7 +66,6 @@ const Talk = () => {
         },
         {
           onSuccess: (res) => {
-            console.log('대화 생성에 성공했습니다.', res);
             setConversationId(res?.id);
           },
           onError: () => {
@@ -108,12 +75,6 @@ const Talk = () => {
       );
     }
   }, [id]);
-
-  useEffect(() => {
-    if (isEnd) {
-      handleEndConversation();
-    }
-  }, [isEnd]);
 
   return (
     <div className='relative w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>

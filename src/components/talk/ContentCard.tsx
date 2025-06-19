@@ -21,7 +21,7 @@ const ContentCard = ({
   difficulty,
   setIsExpanded,
 }: ContentCardProps) => {
-  const [isEnglish, setIsEnglish] = useState<boolean>(false);
+  const [isEnglish, setIsEnglish] = useState<boolean>(false); //* 번역
 
   return (
     <div
