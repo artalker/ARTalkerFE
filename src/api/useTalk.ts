@@ -109,17 +109,14 @@ export const usePatchEndConversation = () => {
 };
 
 //* 대화 평가하기
-export const useTalkResultData = (id: string | number) => {
-  return useQuery({
-    queryKey: ['talkResultData', id],
-    queryFn: async () => {
-      const response = await Axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/results?conversationId=${id}`
+export const usePostTalkResultData = () => {
+  return useMutation({
+    mutationFn: async (params: any) => {
+      const response = await Axios.post(
+        `${import.meta.env.VITE_APP_API_URL}/results`,
+        params
       );
       return response.data;
     },
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnWindowFocus: false,
   });
 };
