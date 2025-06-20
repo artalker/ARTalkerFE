@@ -136,82 +136,85 @@ TalkResultProps) => {
 
   return (
     <div>
-      <h2 className='text-[16px] font-semibold ml-[8px] text-[#4B6FBF]'>
+      <h2 className='text-[16px] font-semibold ml-[8px] text-[#4B6FBF] text-left'>
         결과보기
       </h2>
-      {isLoading ? (
-        <div className='w-full h-full flex flex-col justify-center items-center'>
-          <img src={Loading} alt='loading' className='w-[50px] h-[50px]' />
-        </div>
-      ) : (
-        <div className='w-[320px] mt-[-16px]'>
-          <div ref={captureRef}>
-            <ResultBarChart data={vocaChartData} title='어휘능력' />
-            <ResultBarChart data={accuracyChartData} title='정확도' />
-            <ResultBarChart data={expressionChartData} title='표현력' />
-            <section className='mt-[25px] mb-[30px]'>
-              <div className='w-[320px] min-h-[142px] bg-gradient-to-r from-[#4B6FBF]/10 to-[#A857F7]/10 rounded-lg p-4'>
-                <h2 className='text-[16px] font-semibold mb-2 text-[#4B6FBF]'>
-                  다음엔 이렇게 표현해보세요!
-                </h2>
-                <div className='flex flex-col mb-[8px]'>
-                  <p className='text-[12px] text-[#3D3D3D]'>수정 전:</p>
-                  <p className='text-[12px] text-[#3D3D3D]'>
-                    {resultData?.originalText}
-                  </p>
-                </div>
-                <div className='flex flex-col mb-[8px]'>
-                  <p className='text-[12px] text-[#3D3D3D]'>수정 후:</p>
-                  <p
-                    className='text-[12px] text-[#3D3D3D]'
-                    dangerouslySetInnerHTML={{
-                      __html: resultData?.revisedText || '',
-                    }}
-                  />
-                </div>
-                <div className='flex flex-col'>
-                  <p className='text-[12px] text-[#3D3D3D]'>설명:</p>
-                  <p className='text-[12px] text-[#3D3D3D]'>
-                    {resultData?.explanation}
-                  </p>
-                </div>
-              </div>
-            </section>
+
+      <div className='w-[320px] mt-[-16px]'>
+        {isLoading ? (
+          <div className='w-full h-[450px] flex flex-col justify-center items-center'>
+            <img src={Loading} alt='loading' className='w-[50px] h-[50px]' />
           </div>
-          <div className='flex w-full justify-center gap-[12px]'>
-            <button
-              className='w-[149px] h-[53px] bg-[#4B6FBF] text-[#FFFFFF] text-[14px] font-extrabold p-[8px] rounded-[4px] border-[1px] border-[#4B6FBF]'
-              onClick={() => {
-                // 쿼리스트링 초기화
-                const newSearchParams = new URLSearchParams(searchParams);
-                newSearchParams.delete('conversationId');
-                setSearchParams(newSearchParams);
+        ) : (
+          <>
+            <div ref={captureRef}>
+              <ResultBarChart data={vocaChartData} title='어휘능력' />
+              <ResultBarChart data={accuracyChartData} title='정확도' />
+              <ResultBarChart data={expressionChartData} title='표현력' />
+              <section className='mt-[25px] mb-[30px]'>
+                <div className='w-[320px] min-h-[142px] bg-gradient-to-r from-[#4B6FBF]/10 to-[#A857F7]/10 rounded-lg p-4'>
+                  <h2 className='text-[16px] font-semibold mb-2 text-[#4B6FBF]'>
+                    다음엔 이렇게 표현해보세요!
+                  </h2>
+                  <div className='flex flex-col mb-[8px]'>
+                    <p className='text-[12px] text-[#3D3D3D]'>수정 전:</p>
+                    <p className='text-[12px] text-[#3D3D3D]'>
+                      {resultData?.originalText}
+                    </p>
+                  </div>
+                  <div className='flex flex-col mb-[8px]'>
+                    <p className='text-[12px] text-[#3D3D3D]'>수정 후:</p>
+                    <p
+                      className='text-[12px] text-[#3D3D3D]'
+                      dangerouslySetInnerHTML={{
+                        __html: resultData?.revisedText || '',
+                      }}
+                    />
+                  </div>
+                  <div className='flex flex-col'>
+                    <p className='text-[12px] text-[#3D3D3D]'>설명:</p>
+                    <p className='text-[12px] text-[#3D3D3D]'>
+                      {resultData?.explanation}
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <div className='flex w-full justify-center gap-[12px]'>
+              <button
+                className='w-[149px] h-[53px] bg-[#4B6FBF] text-[#FFFFFF] text-[14px] font-extrabold p-[8px] rounded-[4px] border-[1px] border-[#4B6FBF]'
+                onClick={() => {
+                  // 쿼리스트링 초기화
+                  const newSearchParams = new URLSearchParams(searchParams);
+                  newSearchParams.delete('conversationId');
+                  setSearchParams(newSearchParams);
 
-                // 대화 완료 상태 초기화
-                setTime(300);
-                setIsCompleted(false);
-                setIsEnd(false);
+                  // 대화 완료 상태 초기화
+                  setTime(300);
+                  setIsCompleted(false);
+                  setIsEnd(false);
 
-                // 대화 상태 초기화
-                setIsStart(false);
+                  // 대화 상태 초기화
+                  setIsStart(false);
 
-                // 대화 초기화
-                // handleStartAIMessageData();
-                // setIsAiLoading(true);
-                setIsResultModalOpen(false);
-              }}
-            >
-              다시하기
-            </button>
-            <button
-              className='w-[149px] h-[53px] bg-[#FFFFFF] text-[#4B6FBF] text-[14px] font-extrabold p-[8px] rounded-[4px] border-[1px] border-[#4B6FBF]'
-              onClick={() => captureAndDownload()}
-            >
-              공유하기
-            </button>
-          </div>
-        </div>
-      )}
+                  // 대화 초기화
+                  // handleStartAIMessageData();
+                  // setIsAiLoading(true);
+                  setIsResultModalOpen(false);
+                }}
+              >
+                다시하기
+              </button>
+              <button
+                className='w-[149px] h-[53px] bg-[#FFFFFF] text-[#4B6FBF] text-[14px] font-extrabold p-[8px] rounded-[4px] border-[1px] border-[#4B6FBF]'
+                onClick={() => captureAndDownload()}
+              >
+                공유하기
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
