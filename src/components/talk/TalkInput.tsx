@@ -6,41 +6,46 @@ import { MicrophoneIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import Loading from '../../assets/Loading.gif';
 import { usePostUserMessageData } from '@/api/useTalk';
 import { useAtom } from 'jotai';
-import { isPlayingAtom } from '@/hook/atom/talkAtom';
+import {
+  isCompletedAtom,
+  isPlayingAtom,
+  isStartAtom,
+} from '@/hook/atom/talkAtom';
+import { useLocation } from 'react-router-dom';
 
 interface TalkInputProps {
-  isStart: boolean;
   isEnd: boolean;
   isAiLoading: boolean;
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  handleStartAIMessageData: () => void;
-  conversationId: string | number;
+  // handleStartAIMessageData: () => void;
   setAiMessageData: React.Dispatch<React.SetStateAction<any[]>>;
   aiMessageData: any[];
   refetchTalkMessageData: () => void;
-  setIsStart: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCreateConversation: () => void;
 }
 
 const TalkInput = ({
-  isStart,
   isEnd,
   isAiLoading,
   setIsAiLoading,
-  handleStartAIMessageData,
-  conversationId,
+  // handleStartAIMessageData,
   setAiMessageData,
   aiMessageData,
   refetchTalkMessageData,
-  setIsStart,
+  handleCreateConversation,
 }: TalkInputProps) => {
   const [isPlaying] = useAtom(isPlayingAtom); //* ai 메시지 재생
+  const [isCompleted] = useAtom(isCompletedAtom);
+  const [isStart, setIsStart] = useAtom(isStartAtom);
   const [isRecording, setIsRecording] = useState<boolean>(false); //* 마이크 사용
   const [input, setInput] = useState<string>(''); //* 사용자 입력
   const [permissionError, setPermissionError] = useState<string | null>(null); //* 마이크 권한 에러
   const [lastTranscript, setLastTranscript] = useState<string>(''); //* 마지막 녹음
 
   const inputRef = useRef<HTMLInputElement>(null); //* 사용자 입력 ref
-
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const conversationId = Number(searchParams.get('conversationId'));
   const { mutate: postUserMessageMutate } = usePostUserMessageData(); //* 사용자 응답 post
 
   const { transcript, resetTranscript, listening } = useSpeechRecognition(); //* 음성 인식
@@ -54,11 +59,11 @@ const TalkInput = ({
       });
       stream.getTracks().forEach((track) => track.stop());
       if (isRecording) {
-        await SpeechRecognition.startListening({
+        SpeechRecognition.startListening({
           continuous: true,
           language: 'en-US',
         });
-      } else {
+      } else if (!isRecording) {
         SpeechRecognition.stopListening();
       }
     } catch (err) {
@@ -166,6 +171,7 @@ const TalkInput = ({
     if (isRecording) {
       handleMicClick();
     } else if (!isRecording) {
+      console.log('마이크 중지');
       SpeechRecognition.stopListening();
     }
   }, [isRecording]);
@@ -177,8 +183,9 @@ const TalkInput = ({
           <button
             onClick={() => {
               setIsStart(true);
+              handleCreateConversation();
               if (!isStart) {
-                handleStartAIMessageData();
+                // handleStartAIMessageData();
                 setIsAiLoading(true);
               }
             }}
@@ -191,7 +198,7 @@ const TalkInput = ({
             </p>
           </button>
         </div>
-      ) : isEnd ? (
+      ) : isCompleted || isEnd ? (
         <div className='w-full h-full flex justify-center items-center'>
           <div className='w-[321px] h-[47px] flex flex-col justify-center items-center bg-[#AAAAAA] text-[#FFFFFF] rounded-[8px]'>
             <p className='text-[14px] font-semibold'>END</p>

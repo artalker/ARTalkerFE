@@ -93,6 +93,7 @@ export const useTalkMessageData = (id: string | number) => {
     staleTime: 0,
     gcTime: 0,
     refetchOnWindowFocus: false,
+    enabled: false,
   });
 };
 
@@ -118,5 +119,22 @@ export const usePostTalkResultData = () => {
       );
       return response.data;
     },
+  });
+};
+
+//* 대화 결과 조회
+export const useGetTalkResultData = (id: string | number) => {
+  return useQuery({
+    queryKey: ['talkResultData', id],
+    queryFn: async () => {
+      const response = await Axios.get(
+        `${import.meta.env.VITE_APP_API_URL}/results?conversationId=${id}`
+      );
+      return response.data;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+    enabled: false,
   });
 };

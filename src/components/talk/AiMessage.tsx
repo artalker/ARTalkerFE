@@ -3,6 +3,7 @@ import { FaceSmileIcon } from '@heroicons/react/24/outline';
 import { PlayPauseIcon } from '@heroicons/react/24/solid';
 import { useAtom } from 'jotai';
 import { isPlayingAtom } from '@/hook/atom/talkAtom';
+import { useState } from 'react';
 
 const AIMessage = ({
   message,
@@ -12,6 +13,7 @@ const AIMessage = ({
   setIsAiLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
 
   const speakMessage = () => {
     if (!window.speechSynthesis) {
@@ -62,7 +64,7 @@ const AIMessage = ({
         {/* 메시지 말풍선 */}
         <div className='bg-[#4F46E5] rounded-tl-none text-white px-4 py-3 rounded-2xl min-w-[100px] max-w-[300px]'>
           <p className='whitespace-pre-line text-[15px] leading-relaxed font-medium'>
-            {message?.content}
+            {isTranslating ? message.ko_content : message?.content}
           </p>
         </div>
 
@@ -89,7 +91,12 @@ const AIMessage = ({
               </button>
             </div>
 
-            <button className='text-[#A855F7] text-[10px] font-medium'>
+            <button
+              onClick={() => {
+                setIsTranslating(!isTranslating);
+              }}
+              className='text-[#A855F7] text-[10px] font-medium'
+            >
               번역
             </button>
           </div>

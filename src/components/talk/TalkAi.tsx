@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TalkInput from './TalkInput';
 import TalkDataInfo from './TalkDataInfo';
-import { usePostAIMessageData, useTalkMessageData } from '@/api/useTalk';
+import { usePostAIMessageData } from '@/api/useTalk';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,23 +11,31 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import TalkResult from './TalkResult';
+import { useAtom } from 'jotai';
+import { isEndAtom, isStartAtom, timeAtom } from '@/hook/atom/talkAtom';
+import { useLocation } from 'react-router-dom';
 
 interface TalkAiProps {
-  isStart: boolean;
-  setIsStart: (isStart: boolean) => void;
   isExpanded: boolean;
-  isEnd: boolean;
-  conversationId: string | number;
+  handleCreateConversation: () => void;
+  talkResultData: any;
+  refetchTalkResultData: () => void;
+  talkMessageData: any;
+  refetchTalkMessageData: () => void;
 }
 
 const TalkAi = ({
-  isStart,
-  setIsStart,
   isExpanded,
-  isEnd,
-  conversationId,
+  handleCreateConversation,
+  talkResultData,
+  refetchTalkResultData,
+  talkMessageData,
+  refetchTalkMessageData,
 }: TalkAiProps) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const conversationId = searchParams.get('conversationId') || null;
+
   const scrollContainerRef = useRef<HTMLDivElement>(null); //* 대화창 스크롤
   const [isAiLoading, setIsAiLoading] = useState<boolean>(false); //* AI 로딩
   const [isErrModalOpen, setIsErrModalOpen] = useState<boolean>(false); //* error 모달
@@ -35,11 +43,13 @@ const TalkAi = ({
     Array<{ aiMessage: string; time?: string }>
   >([]); //* AI 메시지
 
-  const [isResultModalOpen, setIsResultModalOpen] = useState<boolean>(false); //* 결과 모달
+  const [isEnd, setIsEnd] = useAtom<boolean>(isEndAtom);
+
+  const [isStart, setIsStart] = useAtom<boolean>(isStartAtom); //* 대화시작
+
+  const [, setTime] = useAtom<number>(timeAtom);
 
   const { mutate: postAIMessageData } = usePostAIMessageData(); //* AI 메시지 시작 시  post
-  const { data: talkMessageData, refetch: refetchTalkMessageData } =
-    useTalkMessageData(conversationId); //* 대화 메시지 get
 
   //* AI 메시지 시작
   const handleStartAIMessageData = () => {
@@ -61,37 +71,47 @@ const TalkAi = ({
         setIsAiLoading(false);
         setIsErrModalOpen(true);
         setIsStart(false);
+        setTime(300);
       },
     });
   };
+
+  useEffect(() => {
+    if (talkResultData?.result?.id) {
+      setIsEnd(true);
+    }
+  }, [talkResultData]);
+
+  useEffect(() => {
+    if (isStart && conversationId) {
+      handleStartAIMessageData();
+    }
+  }, [isStart, conversationId]);
 
   return (
     <>
       {/* 대화 내용 */}
       <TalkDataInfo
         isExpanded={isExpanded}
-        isStart={isStart}
-        isEnd={isEnd}
         setIsAiLoading={setIsAiLoading}
         scrollContainerRef={scrollContainerRef}
         handleStartAIMessageData={handleStartAIMessageData}
-        setIsResultModalOpen={setIsResultModalOpen}
         talkMessageData={talkMessageData}
-        conversationId={conversationId}
+        // refetchTalkMessageData={refetchTalkMessageData}
+        talkResultData={talkResultData}
+        refetchTalkResultData={refetchTalkResultData}
       />
 
       {/* 대화 입력창 */}
       <TalkInput
-        isStart={isStart}
         isEnd={isEnd}
         isAiLoading={isAiLoading}
         setIsAiLoading={setIsAiLoading}
-        handleStartAIMessageData={handleStartAIMessageData}
-        conversationId={conversationId}
+        // handleStartAIMessageData={handleStartAIMessageData}
         setAiMessageData={setAiMessageData}
         aiMessageData={aiMessageData}
         refetchTalkMessageData={refetchTalkMessageData}
-        setIsStart={setIsStart}
+        handleCreateConversation={handleCreateConversation}
       />
       {/* error 모달 */}
       <Dialog open={isErrModalOpen} onOpenChange={setIsErrModalOpen}>
@@ -109,12 +129,6 @@ const TalkAi = ({
               닫기
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      {/* 결과 모달 */}
-      <Dialog open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
-        <DialogContent className='sm:max-w-[552px] max-h-[667px] bg-[#F9FAFB]'>
-          <TalkResult conversationId={conversationId} />
         </DialogContent>
       </Dialog>
     </>
