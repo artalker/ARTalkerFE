@@ -28,7 +28,7 @@ const TalkList = () => {
   });
 
   useEffect(() => {
-    if (filter.categories.length === 4) {
+    if (filter.categories?.length === 4) {
       setFilter({
         ...filter,
         categories: [''],
@@ -52,7 +52,7 @@ const TalkList = () => {
         }
         setTalkLv={setTalkLv}
       />
-      {talkListData?.items.length > 0 ? (
+      {talkListData?.items?.length > 0 ? (
         <>
           <TalkListItems data={talkListData?.items} talkLv={talkLv} />
           <CustomPagination

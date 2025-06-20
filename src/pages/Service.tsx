@@ -316,7 +316,7 @@ const Service = () => {
                 <div className='w-12 h-12 rounded-full bg-gradient-to-r from-[#4B6FBF] to-[#A855F7] flex items-center justify-center text-white font-bold text-lg'>
                   {index + 1}
                 </div>
-                {index < howItWorks.length - 1 && (
+                {index < howItWorks?.length - 1 && (
                   <div className='w-0.5 h-full bg-gray-300 mx-auto mt-2'></div>
                 )}
               </div>

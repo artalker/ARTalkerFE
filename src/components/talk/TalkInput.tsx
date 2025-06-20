@@ -82,7 +82,7 @@ const TalkInput = ({
           conversationId: conversationId,
           sender: 'user',
           content: input,
-          responseId: aiMessageData[aiMessageData.length - 1].responseId, //* ai메세지의 responseId를 함께 전달
+          responseId: aiMessageData[aiMessageData?.length - 1].responseId, //* ai메세지의 responseId를 함께 전달
         },
         {
           onSuccess: (res) => {
@@ -128,10 +128,10 @@ const TalkInput = ({
     if (listening && transcript && !isAiLoading && !isPlaying) {
       if (transcript !== lastTranscript) {
         if (
-          transcript.length > lastTranscript.length &&
+          transcript?.length > lastTranscript?.length &&
           transcript.startsWith(lastTranscript)
         ) {
-          const newText = transcript.slice(lastTranscript.length);
+          const newText = transcript.slice(lastTranscript?.length);
           setInput((current) => current + newText);
         } else {
           setInput((current) => current + transcript);
@@ -141,8 +141,8 @@ const TalkInput = ({
         setTimeout(() => {
           if (inputRef.current) {
             inputRef.current.focus();
-            inputRef.current.selectionStart = inputRef.current.value.length;
-            inputRef.current.selectionEnd = inputRef.current.value.length;
+            inputRef.current.selectionStart = inputRef.current.value?.length;
+            inputRef.current.selectionEnd = inputRef.current.value?.length;
           }
         }, 0);
       }
@@ -160,7 +160,7 @@ const TalkInput = ({
   useEffect(() => {
     if (inputRef.current && isRecording) {
       inputRef.current.focus();
-      const length = inputRef.current.value.length;
+      const length = inputRef?.current?.value?.length;
       inputRef.current.setSelectionRange(length, length);
       inputRef.current.scrollLeft = inputRef.current.scrollWidth;
     }
@@ -171,7 +171,6 @@ const TalkInput = ({
     if (isRecording) {
       handleMicClick();
     } else if (!isRecording) {
-      console.log('마이크 중지');
       SpeechRecognition.stopListening();
     }
   }, [isRecording]);

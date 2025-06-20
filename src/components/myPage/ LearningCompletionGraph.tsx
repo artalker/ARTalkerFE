@@ -29,7 +29,7 @@ const LearningCompletionGraph = () => {
     { date: '2025.05.30', completed: 15 },
     { date: '2025.05.31', completed: 14 },
   ];
-  const chartWidth = Math.max(chartData.length * 60, 300);
+  const chartWidth = Math.max(chartData?.length * 60, 300);
   return (
     <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px] '>
       <h2 className='text-[12px] font-medium'>학습 성과 그래프</h2>
