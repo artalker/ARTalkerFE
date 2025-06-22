@@ -1,8 +1,9 @@
+import { useTodayTipData } from '@/api/useTips';
 import { useNavigate } from 'react-router-dom';
 
 const LearningTip = () => {
   const navigate = useNavigate();
-
+  const { data } = useTodayTipData();
   return (
     <section className='mt-[25px] mb-[30px]'>
       <div
@@ -14,11 +15,8 @@ const LearningTip = () => {
         <h2 className='text-[16px] font-semibold mb-2 text-[#4B6FBF]'>
           오늘의 학습 TIP!
         </h2>
-        <p className='text-[12px] text-[#3D3D3D]'>
-          작품을 설명할 때는 단순히 보이는 것을 묘사하는 것보다 작품에서
-          느껴지는 감정과 분위기를 표현해보세요. 'I think', 'In my opinion' 대신
-          'This artwork evokes...' 또는 'The artist conveys...'와 같은 표현을
-          사용해보세요.
+        <p className='text-[12px] text-[#3D3D3D] min-h-[48px]'>
+          {data?.[0].content}
         </p>
         <div className='mt-3 flex justify-end'>
           <button className='text-[12px] text-[#6366F1] font-medium flex items-center'>

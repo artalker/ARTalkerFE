@@ -10,7 +10,7 @@ import {
 } from '@/hook/atom/talkAtom';
 import { useAtom } from 'jotai';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import TalkResult from './TalkResult';
 import Loading from '@/assets/Loading.gif';
 
@@ -177,6 +177,7 @@ const TalkDataInfo = ({
       </div>
       <Dialog open={isResultModalOpen} onOpenChange={setIsResultModalOpen}>
         <DialogContent className='flex justify-center items-start w-[335px] bg-[#F9FAFB] h-[667px] overflow-y-auto scrollbar-hide overflow-x-hidden'>
+          <DialogTitle className='sr-only'>대화 분석 결과</DialogTitle>
           <TalkResult
             setIsResultModalOpen={setIsResultModalOpen}
             handleStartAIMessageData={handleStartAIMessageData}

@@ -38,8 +38,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({
 }) => {
   const categoryOptions = [
     { value: '', label: '전체' },
-    { value: '인상파', label: '인상파' },
-    { value: '르네상스', label: '르네상스' },
+    { value: '고전미술', label: '고전미술' },
+    { value: '조각∙조소', label: '조각∙조소' },
     { value: '현대미술', label: '현대미술' },
     { value: '동양화', label: '동양화' },
   ];

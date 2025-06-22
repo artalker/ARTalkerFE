@@ -1,42 +1,42 @@
 import { useState } from 'react';
-import CamillePissarro from '../../assets/art/boulevardMontmatre_spring.png';
-import SandroBoticelli from '../../assets/art/the_spring.png';
-import MarcelDuchamp from '../../assets/art/Fountain.jpeg';
-import ShinYoonBok from '../../assets/art/private_spa.jpg';
+import Davinci from '@/assets/art/davinch.png';
+import gogh from '@/assets/art/gogh.png';
+import mone from '@/assets/art/mone.png';
+import sun from '@/assets/art/jungsun.png';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { useNavigate } from 'react-router-dom';
 
 const ArtCategory = () => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState<number>(0);
+  const [activeCategory, setActiveCategory] = useState<number>(70);
   const categoryList = [
     {
-      no: 0,
-      title: '인상주의',
-      name: '프란시스코 피사로',
-      img: CamillePissarro,
-      desc: '몽마르트 대로, 봄 풍경 - 1897, Oil on canvas, 65cm *81cm',
+      no: 70,
+      title: '종교화',
+      name: '레오나르도 다 빈치',
+      img: Davinci,
+      desc: '최후의 만찬 - 1498',
     },
     {
-      no: 1,
-      title: '르네상스',
-      name: '산드로 보티첼리',
-      img: SandroBoticelli,
-      desc: '봄 - 1480, Tempera on panel, 314cm *203cm',
+      no: 63,
+      title: '정물화',
+      name: '빈센트 반 고흐',
+      img: gogh,
+      desc: '해바라기 - 1888',
     },
     {
-      no: 2,
-      title: '현대미술',
-      name: '마르셀 뒤샹',
-      img: MarcelDuchamp,
-      desc: '1917, Ready-made, 36cm *48cm *61cm',
+      no: 66,
+      title: '풍경화',
+      name: '클로드 모네',
+      img: mone,
+      desc: '수련 연못 - 1919',
     },
     {
-      no: 3,
+      no: 67,
       title: '동양화',
-      name: '신윤복',
-      img: ShinYoonBok,
-      desc: '18세기 말 ~ 19세기 초, Ink on paper, 28.2cm *35.6cm',
+      name: '정선',
+      img: sun,
+      desc: '산수화 - 1750',
     },
   ];
 
@@ -50,11 +50,11 @@ const ArtCategory = () => {
               className={`flex justify-center items-center 
                 text-[14px] font-semibold px-[16px] py-[6px] 
                 rounded-[50px] cursor-pointer ${
-                  activeCategory === index
+                  activeCategory === category.no
                     ? 'text-[#4B6FBF] bg-[#fff]'
                     : 'text-[#999999]'
                 }`}
-              onClick={() => setActiveCategory(index)}
+              onClick={() => setActiveCategory(category.no)}
             >
               {category.title}
             </div>
