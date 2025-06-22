@@ -66,7 +66,11 @@ const ArtCategory = () => {
         {categoryList.map((category, index: number) => {
           return (
             activeCategory === category?.no && (
-              <div key={index} onClick={() => navigate(`/talk/${category.no}`)}>
+              <div
+                key={index}
+                onClick={() => navigate(`/talk/${category.no}`)}
+                className='cursor-pointer'
+              >
                 <img
                   src={category.img}
                   alt={category.name}

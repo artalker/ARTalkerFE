@@ -18,7 +18,7 @@ const Tip = () => {
   return (
     <div className='w-full h-root flex flex-col justify-start items-center bg-[#F9FAFB]'>
       <section className='mt-[25px] mb-[60px]'>
-        <div className='w-[335px] h-[142px] bg-gradient-to-r from-[#4B6FBF]/10 to-[#A857F7]/10 rounded-lg p-4'>
+        <div className='w-[335px] min-h-[142px] bg-gradient-to-r from-[#4B6FBF]/10 to-[#A857F7]/10 rounded-lg p-4'>
           <h2 className='text-[16px] font-semibold mb-2 text-[#4B6FBF]'>
             오늘의 학습 TIP!
           </h2>
@@ -33,7 +33,7 @@ const Tip = () => {
           )}
         </div>
       </section>
-      <section className='w-[335px] flex flex-col mb-[60px]'>
+      <section className='w-[335px]  flex flex-col mb-[60px]'>
         <h2 className='ttext-[14px] font-semibold mb-[12px] text-[#3D3D3D]'>
           지난 학습 TIP
         </h2>
