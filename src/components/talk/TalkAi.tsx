@@ -22,6 +22,7 @@ interface TalkAiProps {
   refetchTalkResultData: () => void;
   talkMessageData: any;
   refetchTalkMessageData: () => void;
+  isLoadingTalkMessageData: boolean;
 }
 
 const TalkAi = ({
@@ -31,6 +32,7 @@ const TalkAi = ({
   refetchTalkResultData,
   talkMessageData,
   refetchTalkMessageData,
+  isLoadingTalkMessageData,
 }: TalkAiProps) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -100,6 +102,7 @@ const TalkAi = ({
         // refetchTalkMessageData={refetchTalkMessageData}
         talkResultData={talkResultData}
         refetchTalkResultData={refetchTalkResultData}
+        isLoadingTalkMessageData={isLoadingTalkMessageData}
       />
 
       {/* 대화 입력창 */}

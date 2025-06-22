@@ -12,6 +12,7 @@ import { useAtom } from 'jotai';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import TalkResult from './TalkResult';
+import Loading from '@/assets/Loading.gif';
 
 interface TalkDataInfoProps {
   isExpanded: boolean;
@@ -21,6 +22,7 @@ interface TalkDataInfoProps {
   talkMessageData: any[];
   talkResultData: any;
   refetchTalkResultData: () => void;
+  isLoadingTalkMessageData: boolean;
 }
 
 const TalkDataInfo = ({
@@ -31,6 +33,7 @@ const TalkDataInfo = ({
   talkMessageData,
   talkResultData,
   refetchTalkResultData,
+  isLoadingTalkMessageData,
 }: TalkDataInfoProps) => {
   const { mutate: userTalkEndMutate } = usePatchEndConversation();
   const [isResultModalOpen, setIsResultModalOpen] = useAtom<boolean>(
@@ -85,25 +88,46 @@ const TalkDataInfo = ({
             className='overflow-y-auto h-full px-[21px] py-[18px] scrollbar-hide'
             ref={scrollContainerRef}
           >
-            {talkMessageData?.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.sender === 'assistant'
-                    ? 'justify-start'
-                    : 'justify-end'
-                } mb-4`}
-              >
-                {message.sender === 'assistant' ? (
-                  <AIMessage
-                    message={message}
-                    setIsAiLoading={setIsAiLoading}
-                  />
-                ) : (
-                  <UserMessage message={message} />
-                )}
+            {isLoadingTalkMessageData ? (
+              <div className='w-full h-[300px] flex flex-col justify-center items-center'>
+                <img
+                  src={Loading}
+                  alt='loading'
+                  className='w-[50px] h-[50px]'
+                />
               </div>
-            ))}
+            ) : talkMessageData?.length > 0 ? (
+              talkMessageData?.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    message.sender === 'assistant'
+                      ? 'justify-start'
+                      : 'justify-end'
+                  } mb-4`}
+                >
+                  {message.sender === 'assistant' ? (
+                    <AIMessage
+                      message={message}
+                      setIsAiLoading={setIsAiLoading}
+                    />
+                  ) : (
+                    <UserMessage message={message} />
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className='w-full h-full flex justify-center items-center gap-[6px]'>
+                <span className='text-[12px] text-[#ffffff] bg-[#4B6FBF] px-[6px] py-[3px] rounded-[4px]'>
+                  중요
+                </span>
+                <p className='text-[12px] text-[#ABABAB]'>
+                  대화는{' '}
+                  <span className='text-[#A855F7] font-semibold'>3회 이상</span>{' '}
+                  되어야 결과 분석 및 저장이 가능합니다.
+                </p>
+              </div>
+            )}
             {/*대화종료 시*/}
             {(isEnd || isCompleted) && (
               <div className='flex justify-center items-center w-full h-[36px] p-[8px] bg-[#FFFFFF] border-[1px] border-[#ABAFBA] rounded-[4px]'>

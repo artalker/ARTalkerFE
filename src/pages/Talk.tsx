@@ -40,8 +40,11 @@ const Talk = () => {
 
   const { data: talkResultData, refetch: refetchTalkResultData } =
     useGetTalkResultData(conversationId); //* 대화 결과
-  const { data: talkMessageData, refetch: refetchTalkMessageData } =
-    useTalkMessageData(conversationId); //* 대화 내역
+  const {
+    data: talkMessageData,
+    refetch: refetchTalkMessageData,
+    isLoading: isLoadingTalkMessageData,
+  } = useTalkMessageData(conversationId); //* 대화 내역
 
   //* 대화 시작 시 time 카운트
   useEffect(() => {
@@ -144,6 +147,7 @@ const Talk = () => {
             refetchTalkResultData={refetchTalkResultData}
             talkMessageData={talkMessageData}
             refetchTalkMessageData={refetchTalkMessageData}
+            isLoadingTalkMessageData={isLoadingTalkMessageData}
           />
           {isStart && (
             <TalkEndButton time={time} isEnd={isEnd} setIsEnd={setIsEnd} />

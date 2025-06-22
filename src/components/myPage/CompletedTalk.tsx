@@ -68,23 +68,25 @@ const CompletedTalk = () => {
           {data?.items?.map((item: any, index: number) => (
             <div
               key={index}
-              onClick={() => {
-                if (item?.isComplete) {
-                  handleMoveResult(item.artwork.id, item.id);
-                }
-              }}
-              className={`relative w-[335px] h-[150px] flex flex-col justify-start items-start border-[1px] border-[#E5E5E5] bg-[#FFFFFF] rounded-lg mb-[6px] overflow-hidden ${
-                item?.isComplete && 'cursor-pointer'
-              }`}
+              className={`relative w-[335px] h-[150px] flex flex-col justify-start items-start border-[1px] border-[#E5E5E5] bg-[#FFFFFF] rounded-lg mb-[6px] overflow-hidden z-[0]`}
             >
               <div
                 className={`${
                   !item?.isComplete &&
-                  'absolute w-full h-full flex bg-[#3d3d3d] opacity-[0.4] z-[1]'
+                  'absolute w-full h-full flex bg-[#3d3d3d] opacity-[0.4] z-[2]'
                 }`}
               />
               <div className={`${!item?.isComplete && 'blur-[2px]'}`}>
-                <div className='w-full h-[107px] p-[12px] flex justify-start items-start rounded-r-[8px] rounded-l-[8px] rounded-b-none overflow-hidden bg-[#FFFFFF]'>
+                <div
+                  onClick={() => {
+                    if (item?.isComplete) {
+                      handleMoveResult(item.artwork.id, item.id);
+                    }
+                  }}
+                  className={`w-full h-[107px] p-[12px] flex justify-start items-start rounded-r-[8px] rounded-l-[8px] rounded-b-none overflow-hidden bg-[#FFFFFF] ${
+                    item?.isComplete && 'cursor-pointer'
+                  }`}
+                >
                   {item.artwork.imageUrl &&
                   !item.artwork.imageUrl.includes('example.com') ? (
                     <img
@@ -116,7 +118,7 @@ const CompletedTalk = () => {
                     <p className='text-[10px] text-[#ABABAB] overflow-hidden text-ellipsis line-clamp-1'>
                       {item.artwork.artist}, {item.artwork.year}
                     </p>
-                    <StarRating score={Number(item.score)} />
+                    <StarRating score={Number(item?.rating?.totalScoreStar)} />
                     <p className='text-[10px] text-[#ABABAB] mt-[3px] leading-[12px] overflow-hidden text-ellipsis line-clamp-2'>
                       {item.artwork.description_ko}
                     </p>
@@ -127,8 +129,8 @@ const CompletedTalk = () => {
                     {converDateNoTime(item.startedAt)}
                   </p>
                   <button
-                    onClick={() => handleReTalk(item.no)}
-                    className='text-[10px] text-[#ffffff] flex items-center gap-[2px] bg-[#6366F1] rounded-[4px] px-[6px] py-[3px] cursor-pointer'
+                    onClick={() => handleReTalk(item.artwork.id)}
+                    className='text-[10px] text-[#ffffff] flex items-center gap-[2px] bg-[#6366F1] rounded-[4px] px-[6px] py-[3px] cursor-pointer z-[1]'
                   >
                     <ChatBubbleOvalLeftIcon className='w-[14px] h-[14px] text-[#ffffff] scale-x-[-1]' />
                     새로 대화하기

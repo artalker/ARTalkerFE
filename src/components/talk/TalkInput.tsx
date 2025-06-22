@@ -12,6 +12,7 @@ import {
   isStartAtom,
 } from '@/hook/atom/talkAtom';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface TalkInputProps {
   isEnd: boolean;
@@ -75,6 +76,10 @@ const TalkInput = ({
 
   //* 사용자 응답
   const handleSend = () => {
+    if (input === '') {
+      toast.error('메시지를 입력해주세요.');
+      return;
+    }
     setIsAiLoading(true);
     if (input.trim()) {
       postUserMessageMutate(
@@ -233,6 +238,7 @@ const TalkInput = ({
                     setIsRecording(false);
                   } else {
                     e.currentTarget.value = input;
+                    toast.error('영어와 숫자만 입력 가능합니다.');
                   }
                 }
               }}
