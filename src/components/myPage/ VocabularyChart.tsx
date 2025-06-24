@@ -6,21 +6,25 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useAtom } from 'jotai';
+import { periodAtom } from '@/hook/atom/eduAtom';
 
 const VocabularyChart = ({ data }: { data: any }) => {
+  const [period] = useAtom(periodAtom);
+  const rate = 10;
   const chartData = [
     {
-      name: 'expert',
+      name: 'expert(심화)',
       score: Number(data?.[0]?.avgvocabadvancedratio) * 100,
       fill: '#6366F1',
     },
     {
-      name: 'advanced',
+      name: 'advanced(중급)',
       score: Number(data?.[0]?.avgvocabintermediateratio) * 100,
       fill: '#AEB0F6',
     },
     {
-      name: 'basic',
+      name: 'basic(초급)',
       score: Number(data?.[0]?.avgvocabbeginnerratio) * 100,
       fill: '#D8D8D8',
     },
@@ -47,8 +51,13 @@ const VocabularyChart = ({ data }: { data: any }) => {
     <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px] '>
       <div className='w-full flex justify-between items-center'>
         <h2 className='text-[12px] font-medium'>어휘 난이도 분석</h2>
-        <span className='text-[12px] text-[#6366F1] font-extrabold'>
-          + 15% 성장
+        <span
+          className={`text-[12px] ${
+            rate > 0 ? 'text-[#6366F1]' : 'text-[#FEB200]'
+          } font-extrabold`}
+        >
+          {period === 'week' ? '전주 대비' : '전월 대비'} {rate}%{' '}
+          {rate > 0 ? '성장' : '감소'}
         </span>
       </div>
       <div className='w-[260px] flex justify-between items-center'>

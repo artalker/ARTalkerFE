@@ -85,8 +85,8 @@ const TotalEvaluation = () => {
           <TotalEvaluationChart data={data} />
           <LearningCompletionGraph />
           <VocabularyChart data={data} />
-          <EduBarChart data={sentenceChartData} title='정확도' />
-          <EduBarChart data={expressionChartData} title='표현력' />
+          <EduBarChart data={sentenceChartData} title='정확도' rate={-15} />
+          <EduBarChart data={expressionChartData} title='표현력' rate={20} />
         </>
       )}
     </div>

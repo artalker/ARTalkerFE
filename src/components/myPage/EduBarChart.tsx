@@ -1,13 +1,18 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent } from '@/components/ui/card';
 import { type ChartConfig, ChartContainer } from '@/components/ui/chart';
+import { useAtom } from 'jotai';
+import { periodAtom } from '@/hook/atom/eduAtom';
 const EduBarChart = ({
   data,
   title,
+  rate,
 }: {
   data: { name: string; score: number }[];
   title: string;
+  rate: number;
 }) => {
+  const [period] = useAtom(periodAtom);
   const chartConfig = {
     score: {
       label: title,
@@ -29,8 +34,13 @@ const EduBarChart = ({
     <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px] '>
       <div className='w-full flex justify-between items-center mb-[17px]'>
         <h2 className='text-[12px] font-medium'>{title} 분석</h2>
-        <span className='text-[12px] text-[#6366F1] font-extrabold'>
-          + 15% 성장
+        <span
+          className={`text-[12px] ${
+            rate > 0 ? 'text-[#6366F1]' : 'text-[#FEB200]'
+          } font-extrabold`}
+        >
+          {period === 'week' ? '전주 대비' : '전월 대비'} {rate}%{' '}
+          {rate > 0 ? '성장' : '감소'}
         </span>
       </div>
       <Card className='w-full h-[140px] border-none shadow-none flex flex-col items-center justify-center'>
