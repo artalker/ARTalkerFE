@@ -28,7 +28,7 @@ const Tip = () => {
             </div>
           ) : (
             <p className='text-[12px] text-[#3D3D3D]'>
-              {todayTipData?.[0].content}
+              {todayTipData?.[0]?.content}
             </p>
           )}
         </div>
@@ -49,9 +49,9 @@ const Tip = () => {
                 className='w-[335px] flex flex-col justify-between items-start border-[1px] border-[#E5E5E5] px-[16px] py-[13px] bg-[#FFFFFF] rounded-lg'
               >
                 <p className='mb-[4px] text-[12px] font-semibold text-[#3D3D3D]'>
-                  {converDateNoTime(tip.createdAt)}
+                  {converDateNoTime(tip?.createdAt)}
                 </p>
-                <p className='text-[12px] text-[#817E7E]'>{tip.content}</p>
+                <p className='text-[12px] text-[#817E7E]'>{tip?.content}</p>
               </div>
             ))
           )}

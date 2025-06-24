@@ -13,10 +13,10 @@ import {
 } from '@/components/ui/chart';
 
 interface RadarChartProps {
-  chartData: any[];
+  data: any[];
 }
 
-const TotalRadarChart = ({ chartData }: RadarChartProps) => {
+const TotalRadarChart = ({ data }: RadarChartProps) => {
   const chartConfig = {
     desktop: {
       label: 'Desktop',
@@ -32,7 +32,7 @@ const TotalRadarChart = ({ chartData }: RadarChartProps) => {
               <RechartsRadarChart
                 width={250}
                 height={250}
-                data={chartData}
+                data={data}
                 outerRadius={100}
                 margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
               >

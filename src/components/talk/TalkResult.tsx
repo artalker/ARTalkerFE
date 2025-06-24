@@ -66,19 +66,20 @@ TalkResultProps) => {
           setVocaChartData([
             {
               name: '초급',
-              score: res?.conversationRating?.vocabBeginnerCount || 0,
+              score: (res?.conversationRating?.vocabBeginnerCount || 0) * 100,
               fill: '#D8D8D8',
               rate: res?.conversationRating?.vocabBeginnerRatio || 0,
             },
             {
               name: '중급',
-              score: res?.conversationRating?.vocabIntermediateCount || 0,
+              score:
+                (res?.conversationRating?.vocabIntermediateCount || 0) * 100,
               fill: '#AEB0F6',
               rate: res?.conversationRating?.vocabIntermediateRatio || 0,
             },
             {
               name: '고급',
-              score: res?.conversationRating?.vocabAdvancedCount || 0,
+              score: (res?.conversationRating?.vocabAdvancedCount || 0) * 100,
               fill: '#6366F1',
               rate: res?.conversationRating?.vocabAdvancedRatio || 0,
             },
@@ -87,19 +88,23 @@ TalkResultProps) => {
           setAccuracyChartData([
             {
               name: '낮음',
-              score: res?.conversationRating?.sentenceAccuracyLowCount || 0,
+              score:
+                (res?.conversationRating?.sentenceAccuracyLowCount || 0) * 100,
               fill: '#D8D8D8',
               rate: res?.conversationRating?.sentenceAccuracyLowRatio || 0,
             },
             {
               name: '보통',
-              score: res?.conversationRating?.sentenceAccuracyMediumCount || 0,
+              score:
+                (res?.conversationRating?.sentenceAccuracyMediumCount || 0) *
+                100,
               fill: '#AEB0F6',
               rate: res?.conversationRating?.sentenceAccuracyMediumRatio || 0,
             },
             {
               name: '높음',
-              score: res?.conversationRating?.sentenceAccuracyHighCount || 0,
+              score:
+                (res?.conversationRating?.sentenceAccuracyHighCount || 0) * 100,
               fill: '#6366F1',
               rate: res?.conversationRating?.sentenceAccuracyHighRatio || 0,
             },
@@ -107,19 +112,20 @@ TalkResultProps) => {
           setExpressionChartData([
             {
               name: '단순함',
-              score: res?.conversationRating?.expressBeginnerCount || 0,
+              score: (res?.conversationRating?.expressBeginnerCount || 0) * 100,
               fill: '#D8D8D8',
               rate: res?.conversationRating?.expressBeginnerRatio || 0,
             },
             {
               name: '다양함',
-              score: res?.conversationRating?.expressIntermediateCount || 0,
+              score:
+                (res?.conversationRating?.expressIntermediateCount || 0) * 100,
               fill: '#AEB0F6',
               rate: res?.conversationRating?.expressIntermediateRatio || 0,
             },
             {
               name: '창의적',
-              score: res?.conversationRating?.expressAdvancedCount || 0,
+              score: (res?.conversationRating?.expressAdvancedCount || 0) * 100,
               fill: '#6366F1',
               rate: res?.conversationRating?.expressAdvancedRatio || 0,
             },

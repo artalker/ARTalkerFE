@@ -7,11 +7,23 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
-const VocabularyChart = () => {
+const VocabularyChart = ({ data }: { data: any }) => {
   const chartData = [
-    { name: 'expert', score: 40, fill: '#6366F1' },
-    { name: 'advanced', score: 40, fill: '#AEB0F6' },
-    { name: 'basic', score: 20, fill: '#D8D8D8' },
+    {
+      name: 'expert',
+      score: Number(data?.[0]?.avgvocabadvancedratio) * 100,
+      fill: '#6366F1',
+    },
+    {
+      name: 'advanced',
+      score: Number(data?.[0]?.avgvocabintermediateratio) * 100,
+      fill: '#AEB0F6',
+    },
+    {
+      name: 'basic',
+      score: Number(data?.[0]?.avgvocabbeginnerratio) * 100,
+      fill: '#D8D8D8',
+    },
   ];
   const chartConfig = {
     score: {

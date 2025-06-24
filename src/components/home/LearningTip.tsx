@@ -11,7 +11,7 @@ const LearningTip = () => {
           오늘의 학습 TIP!
         </h2>
         <p className='text-[12px] text-[#3D3D3D] min-h-[48px]'>
-          {data?.[0].content}
+          {data?.[0]?.content}
         </p>
         <div className='mt-3 flex justify-end'>
           <button

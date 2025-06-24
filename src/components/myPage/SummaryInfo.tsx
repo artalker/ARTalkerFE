@@ -1,5 +1,6 @@
 import { useUserLearningStatisticsData } from '@/api/useResult';
 import Loading from '@/assets/Loading.gif';
+import { converTime } from '@/utils/dateConvert';
 
 const SummaryInfo = () => {
   const userId = sessionStorage.getItem('id');
@@ -17,15 +18,15 @@ const SummaryInfo = () => {
             <p className='text-[12px] text-[#817E7E] font-medium'>
               총 학습시간
             </p>
-            <p className='text-[18px] font-extrabold text-right w-full'>
-              {data?.totalLearningTimeMinutes} 분
+            <p className='text-[16px] font-extrabold text-right w-full'>
+              {converTime(data?.totalLearningTimeMinutes)}
             </p>
           </div>
           <div className='total-evaluation-box'>
             <p className='text-[12px] text-[#817E7E] font-medium'>
               완료된 토론
             </p>
-            <p className='text-[18px] font-extrabold text-right w-full'>
+            <p className='text-[16px] font-extrabold text-right w-full'>
               {data?.completedLearningCount} 회
             </p>
           </div>
@@ -33,7 +34,7 @@ const SummaryInfo = () => {
             <p className='text-[12px] text-[#817E7E] font-medium text-left w-full'>
               학습한 주제
             </p>
-            <p className='text-[18px] font-extrabold text-right w-full'>
+            <p className='text-[16px] font-extrabold text-right w-full'>
               {data?.uniqueTopicsCount} 개
             </p>
           </div>
@@ -41,7 +42,7 @@ const SummaryInfo = () => {
             <p className='text-[12px] text-[#817E7E] font-medium text-left w-full'>
               연속 학습일
             </p>
-            <p className='text-[18px] font-extrabold text-right w-full'>
+            <p className='text-[16px] font-extrabold text-right w-full'>
               {data?.consecutiveLearningDays} 일
             </p>
           </div>

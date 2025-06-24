@@ -79,7 +79,7 @@ const ResultBarChart = ({
                 {item.name}
               </p>
               <span className='text-[18px] text-[#000000] font-extrabold'>
-                {item.rate}%
+                {item?.rate || 0 * 100}%
               </span>
             </div>
           </div>

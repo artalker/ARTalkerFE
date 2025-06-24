@@ -71,3 +71,27 @@ export const converDateSimpleMonthFullDate = (val: Date | number) => {
   const newDate = format(val, 'MM.dd HH:mm');
   return newDate;
 };
+
+export const converTime = (val: number): string => {
+  if (typeof val !== 'number' || isNaN(val) || val < 0) {
+    return '0분';
+  }
+
+  const hours = Math.floor(val / 60);
+  const minutes = val % 60;
+
+  if (hours === 0) {
+    return `${minutes}분`;
+  } else if (minutes === 0) {
+    return `${hours}시간`;
+  } else {
+    return `${hours}시간 ${minutes}분`;
+  }
+};
+
+export const formatDate = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+};
