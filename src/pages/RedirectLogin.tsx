@@ -1,30 +1,25 @@
+import { useEffect } from 'react';
 import loginBg from '@/assets/loginBg.png';
 import artTalkLogo from '@/assets/ARTalker.svg';
+import Loading from '@/assets/Loading.gif';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const width = 500;
-    const height = 700;
-    const left = window.screenX + (window.outerWidth - width) / 2;
-    const top = window.screenY + (window.outerHeight - height) / 2.5;
-
-    const popup = window.open(
-      `https://kauth.kakao.com/oauth/authorize?client_id=${
-        import.meta.env.VITE_KAKAO_REST_API_KEY
-      }&redirect_uri=${
-        import.meta.env.VITE_KAKAO_REDIRECT_URI
-      }&response_type=code`,
-      '_self',
-      `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
-    );
-
-    // 팝업이 차단되었는지 확인
-    if (!popup || popup.closed || typeof popup.closed === 'undefined') {
-      alert('팝업이 차단되었습니다. 브라우저 설정에서 팝업을 허용해주세요.');
+const RedirectLogin = () => {
+  const navigate = useNavigate();
+  const urlParams = new URL(document.location.toString()).searchParams.get(
+    'code'
+  );
+  useEffect(() => {
+    if (urlParams) {
+      console.log('urlParams', urlParams);
+      sessionStorage.setItem('id', '8');
+      sessionStorage.setItem('name', 'seo jiwoon');
+      sessionStorage.setItem('profileImage', 'examdfsafasdsaple');
+      sessionStorage.setItem('level', '1');
+      sessionStorage.setItem('experience', '0');
+      navigate('/');
     }
-  };
-
+  }, []);
   return (
     <div className='w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>
       <div className='w-full max-w-[667px] min-w-[355px] bg-white h-screen'>
@@ -48,13 +43,8 @@ const Login = () => {
             </p>
           </div>
           <div className='absolute bottom-[84px] w-full flex flex-col justify-start items-center px-[24px]'>
-            <button
-              onClick={handleLogin}
-              className='w-full flex flex-col justify-center items-center bg-[#FEE500] h-[48px] rounded-[8px]'
-            >
-              <p className='text-[16px] font-semibold text-[#333333]'>
-                카카오 로그인
-              </p>
+            <button className='w-full flex flex-col justify-center items-center bg-[#FEE500] h-[48px] rounded-[8px]'>
+              <img src={Loading} alt='loading' className='w-[50px] h-[50px]' />
             </button>
           </div>
         </div>
@@ -63,4 +53,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RedirectLogin;

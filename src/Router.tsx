@@ -7,6 +7,7 @@ import TalkList from './pages/TalkList';
 import Tip from './pages/Tip';
 import MyPage from './pages/MyPage';
 import Service from './pages/Service';
+import RedirectLogin from './pages/RedirectLogin';
 
 const Router = () => {
   // const AuthenticateRoute = ({
@@ -39,6 +40,7 @@ const Router = () => {
     <Routes>
       <Route element={<AuthenticateRoute isAuthenticated={false} />}>
         <Route path='login' element={<Login />} />
+        <Route path='redirectLogin' element={<RedirectLogin />} />
         <Route path='/' element={<MainLayout />}>
           <Route path='service' element={<Service />} />
         </Route>
