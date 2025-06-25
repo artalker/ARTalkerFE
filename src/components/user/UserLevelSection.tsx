@@ -6,6 +6,7 @@ const UserLevelSection = () => {
   const userName = sessionStorage.getItem('name');
   const userLevel = sessionStorage.getItem('level');
   const userExperience = sessionStorage.getItem('experience');
+  const profileImage = sessionStorage.getItem('profileImage');
 
   return (
     <div className='w-[335px] min-h-[90px] flex flex-col justify-between items-start mt-[20px]'>
@@ -27,7 +28,7 @@ const UserLevelSection = () => {
           </div>
         </div>
         <div className='w-[40px] h-[40px] rounded-full overflow-hidden border-[3px] border-[#6366F1]'>
-          <img src={NoneUser} alt='noneUser' />
+          <img src={profileImage || NoneUser} alt='noneUser' />
         </div>
       </div>
       <div>

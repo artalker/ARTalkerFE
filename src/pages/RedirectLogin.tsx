@@ -3,23 +3,39 @@ import loginBg from '@/assets/loginBg.png';
 import artTalkLogo from '@/assets/ARTalker.svg';
 import Loading from '@/assets/Loading.gif';
 import { useNavigate } from 'react-router-dom';
+import { useUserKakaoLoginData } from '@/api/useUser';
 
 const RedirectLogin = () => {
   const navigate = useNavigate();
   const urlParams = new URL(document.location.toString()).searchParams.get(
     'code'
   );
+  const { mutate } = useUserKakaoLoginData();
+  const onKakaoLogin = () => {
+    mutate(
+      { code: urlParams },
+      {
+        onSuccess: (data) => {
+          sessionStorage.setItem('id', data?.user?.id);
+          sessionStorage.setItem('name', data?.user?.name);
+          sessionStorage.setItem('profileImage', data?.user?.thumbnailImageUrl);
+          sessionStorage.setItem('level', data?.user?.level);
+          sessionStorage.setItem('experience', data?.user?.experience);
+          sessionStorage.setItem('accessToken', data?.accessToken);
+          navigate('/');
+        },
+        onError: () => {
+          alert('로그인에 실패했습니다. 잠시후 다시 시도해주세요.');
+          navigate('/login');
+        },
+      }
+    );
+  };
   useEffect(() => {
     if (urlParams) {
-      console.log('urlParams', urlParams);
-      sessionStorage.setItem('id', '8');
-      sessionStorage.setItem('name', 'seo jiwoon');
-      sessionStorage.setItem('profileImage', 'examdfsafasdsaple');
-      sessionStorage.setItem('level', '1');
-      sessionStorage.setItem('experience', '0');
-      navigate('/');
+      onKakaoLogin();
     }
-  }, []);
+  }, [urlParams]);
   return (
     <div className='w-full flex flex-col justify-start items-center bg-[#4B6FBF] h-screen'>
       <div className='w-full max-w-[667px] min-w-[355px] bg-white h-screen'>
