@@ -16,6 +16,12 @@ const TotalEvaluation = () => {
   const userId = sessionStorage.getItem('id');
   const [period] = useAtom(periodAtom);
   const [date] = useAtom(dateAtom);
+  const { data: dailyChartData } = useUserLearningEvaluationData({
+    userId: Number(userId),
+    startDate: date?.startDate,
+    endDate: date?.endDate,
+    type: 'day',
+  });
   const { data, isLoading } = useUserLearningEvaluationData({
     userId: Number(userId),
     startDate: date?.startDate,
@@ -83,7 +89,7 @@ const TotalEvaluation = () => {
       ) : (
         <>
           <TotalEvaluationChart data={data} />
-          <LearningCompletionGraph />
+          <LearningCompletionGraph data={dailyChartData} />
           <VocabularyChart data={data} />
           <EduBarChart data={sentenceChartData} title='정확도' rate={-15} />
           <EduBarChart data={expressionChartData} title='표현력' rate={20} />

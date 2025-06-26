@@ -55,6 +55,7 @@ const TalkAi = ({
 
   //* AI 메시지 시작
   const handleStartAIMessageData = () => {
+    if (!conversationId) return;
     postAIMessageData(conversationId, {
       onSuccess: (res) => {
         setAiMessageData((prev) => [
@@ -68,8 +69,7 @@ const TalkAi = ({
         setIsAiLoading(false);
         refetchTalkMessageData();
       },
-      onError: (err) => {
-        console.error('AI 메시지 로딩 중 오류 발생:', err);
+      onError: () => {
         setIsAiLoading(false);
         setIsErrModalOpen(true);
         setIsStart(false);

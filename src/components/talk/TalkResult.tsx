@@ -66,68 +66,137 @@ TalkResultProps) => {
           setVocaChartData([
             {
               name: '초급',
-              score: (res?.conversationRating?.vocabBeginnerCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.vocabBeginnerCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#D8D8D8',
-              rate: res?.conversationRating?.vocabBeginnerRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.vocabBeginnerRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
             {
               name: '중급',
-              score:
-                (res?.conversationRating?.vocabIntermediateCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.vocabIntermediateCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#AEB0F6',
-              rate: res?.conversationRating?.vocabIntermediateRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.vocabIntermediateRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
             {
               name: '고급',
-              score: (res?.conversationRating?.vocabAdvancedCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.vocabAdvancedCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#6366F1',
-              rate: res?.conversationRating?.vocabAdvancedRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.vocabAdvancedRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
           ]);
 
           setAccuracyChartData([
             {
               name: '낮음',
-              score:
-                (res?.conversationRating?.sentenceAccuracyLowCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyLowCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#D8D8D8',
-              rate: res?.conversationRating?.sentenceAccuracyLowRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyLowRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
             {
               name: '보통',
-              score:
-                (res?.conversationRating?.sentenceAccuracyMediumCount || 0) *
-                100,
+              score: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyMediumCount || 0) *
+                  10
+                ).toFixed(1)
+              ),
               fill: '#AEB0F6',
-              rate: res?.conversationRating?.sentenceAccuracyMediumRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyMediumRatio || 0) *
+                  100
+                ).toFixed(1)
+              ),
             },
             {
               name: '높음',
-              score:
-                (res?.conversationRating?.sentenceAccuracyHighCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyHighCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#6366F1',
-              rate: res?.conversationRating?.sentenceAccuracyHighRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.sentenceAccuracyHighRatio || 0) *
+                  100
+                ).toFixed(1)
+              ),
             },
           ]);
           setExpressionChartData([
             {
               name: '단순함',
-              score: (res?.conversationRating?.expressBeginnerCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.expressBeginnerCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#D8D8D8',
-              rate: res?.conversationRating?.expressBeginnerRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.expressBeginnerRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
             {
               name: '다양함',
-              score:
-                (res?.conversationRating?.expressIntermediateCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.expressIntermediateCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#AEB0F6',
-              rate: res?.conversationRating?.expressIntermediateRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.expressIntermediateRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
             {
               name: '창의적',
-              score: (res?.conversationRating?.expressAdvancedCount || 0) * 100,
+              score: Number(
+                (
+                  (res?.conversationRating?.expressAdvancedCount || 0) * 10
+                ).toFixed(1)
+              ),
               fill: '#6366F1',
-              rate: res?.conversationRating?.expressAdvancedRatio || 0,
+              rate: Number(
+                (
+                  (res?.conversationRating?.expressAdvancedRatio || 0) * 100
+                ).toFixed(1)
+              ),
             },
           ]);
           setResultData(res?.conversationFeedback);

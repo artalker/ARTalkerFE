@@ -6,7 +6,7 @@ const ResultBarChart = ({
   data,
   title,
 }: {
-  data: { name: string; score: number; rate: number | string }[];
+  data: { name: string; score: any; rate: any }[];
   title: string;
 }) => {
   const chartConfig = {
@@ -79,7 +79,7 @@ const ResultBarChart = ({
                 {item.name}
               </p>
               <span className='text-[18px] text-[#000000] font-extrabold'>
-                {item?.rate || 0 * 100}%
+                {item?.rate}%
               </span>
             </div>
           </div>

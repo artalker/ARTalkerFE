@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AIMessage from './AiMessage';
 import UserMessage from './UserMessage';
 import { usePatchEndConversation } from '@/api/useTalk';
@@ -43,7 +43,8 @@ const TalkDataInfo = ({
   const [isEnd] = useAtom<boolean>(isEndAtom);
   const [isCompleted] = useAtom<boolean>(isCompletedAtom);
   const [, setIsStart] = useAtom<boolean>(isStartAtom); //* 대화시작
-
+  const [isResultModalOpenCheck, setIsResultModalOpenCheck] =
+    useState<boolean>(false);
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams(location.search);
   const conversationId = Number(searchParams.get('conversationId'));
@@ -51,9 +52,10 @@ const TalkDataInfo = ({
   //* 대화종료 시
   const handleEndConversation = () => {
     if (!conversationId) return;
+    setIsResultModalOpenCheck(true);
     if (talkResultData?.result?.id) {
       setIsResultModalOpen(true);
-    } else if (!talkResultData?.result?.id) {
+    } else if (!talkResultData?.result?.id && isResultModalOpenCheck) {
       userTalkEndMutate(conversationId, {
         onSuccess: () => {
           setIsResultModalOpen(true);

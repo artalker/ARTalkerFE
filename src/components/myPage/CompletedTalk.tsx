@@ -63,6 +63,19 @@ const CompletedTalk = () => {
         <div className='w-full h-[300px] flex flex-col justify-center items-center'>
           <img src={Loading} alt='loading' className='w-[50px] h-[50px]' />
         </div>
+      ) : data?.items?.length === 0 ? (
+        <div className='w-full h-[300px] flex flex-col justify-center items-center gap-[10px] bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[15px]'>
+          <p className='text-[12px] text-[#ABABAB]'>
+            아직 대화한 작품이 없습니다.
+          </p>
+          <button
+            onClick={() => navigate('/talkList')}
+            className='text-[10px] text-[#ffffff] flex items-center gap-[2px] bg-[#6366F1] rounded-[4px] px-[6px] py-[3px] cursor-pointer z-[1]'
+          >
+            <ChatBubbleOvalLeftIcon className='w-[14px] h-[14px] text-[#ffffff] scale-x-[-1]' />
+            대화하기
+          </button>
+        </div>
       ) : (
         <>
           {data?.items?.map((item: any, index: number) => (

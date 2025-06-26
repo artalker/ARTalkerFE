@@ -50,7 +50,7 @@ const Login = () => {
           <div className='absolute bottom-[84px] w-full flex flex-col justify-start items-center px-[24px]'>
             <button
               onClick={handleLogin}
-              className='w-full flex flex-col justify-center items-center bg-[#FEE500] h-[48px] rounded-[8px]'
+              className='w-full flex flex-col justify-center items-center bg-[#FEE500] h-[48px] rounded-[8px] cursor-pointer'
             >
               <p className='text-[16px] font-semibold text-[#333333]'>
                 카카오 로그인

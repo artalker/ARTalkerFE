@@ -10,19 +10,6 @@ import Service from './pages/Service';
 import RedirectLogin from './pages/RedirectLogin';
 
 const Router = () => {
-  // const AuthenticateRoute = ({
-  //   isAuthenticated: boolean,
-  // }: {
-  //   isAuthenticated: boolean;
-  // }) => {
-  //   const token = sessionStorage.getItem("accessToken");
-
-  //   if (isAuthenticated) {
-  //     return token ? <Outlet /> : <Navigate to={"/login"} />;
-  //   } else {
-  //     return token ? <Navigate to={"/"} /> : <Outlet />;
-  //   }
-  // };
   const AuthenticateRoute = ({ isAuthenticated }) => {
     const id = sessionStorage.getItem('id');
     return isAuthenticated ? (

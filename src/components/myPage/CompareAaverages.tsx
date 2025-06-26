@@ -15,7 +15,7 @@ const CompareAaverages = ({ data }: { data: any }) => {
           <p className='text-[10px] text-[#1F2024]'>{item?.name}</p>
           <Progress
             value={item?.score}
-            className='h-[6px] w-[183px]'
+            className='h-[6px] w-[182px]'
             standardValue={item?.average}
           />
           <p className='text-[10px] text-[#817E7E]'>

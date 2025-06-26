@@ -14,22 +14,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const LearningCompletionGraph = () => {
-  const chartData = [
-    { date: '2025.05.26', completed: 10 },
-    { date: '2025.05.27', completed: 20 },
-    { date: '2025.05.28', completed: 30 },
-    { date: '2025.05.29', completed: 40 },
-    { date: '2025.05.30', completed: 50 },
-    { date: '2025.05.31', completed: 60 },
-    { date: '2025.05.26', completed: 6 },
-    { date: '2025.05.27', completed: 1 },
-    { date: '2025.05.28', completed: 7 },
-    { date: '2025.05.29', completed: 73 },
-    { date: '2025.05.30', completed: 15 },
-    { date: '2025.05.31', completed: 14 },
-  ];
-  const chartWidth = Math.max(chartData?.length * 60, 300);
+const LearningCompletionGraph = ({ data }: { data: any }) => {
+  const chartWidth = Math.max(data?.length * 60, 300);
+
+  const maxValue = Math.max(
+    5, // 최소값 5 보장
+    ...(data?.map((item: any) => item?.totalsessions || 0) || [0])
+  );
+  const yTicks = Array.from({ length: maxValue + 1 }, (_, i) => i);
   return (
     <div className='w-full flex flex-col justify-start items-start bg-[#FFFFFF] border-[1px] border-[#EBEBEB] rounded-[16px] p-[26px] mt-[26px] '>
       <h2 className='text-[12px] font-medium'>학습 성과 그래프</h2>
@@ -48,7 +40,7 @@ const LearningCompletionGraph = () => {
                   <LineChart
                     width={chartWidth}
                     height={250}
-                    data={chartData}
+                    data={data}
                     margin={{
                       top: 10,
                       right: 20,
@@ -58,20 +50,25 @@ const LearningCompletionGraph = () => {
                   >
                     <CartesianGrid vertical={false} />
                     <XAxis
-                      dataKey='date'
+                      dataKey='period'
                       tickLine={false}
                       axisLine={false}
                       tickMargin={8}
                       padding={{ left: 20, right: 20 }}
-                      tickFormatter={(value) => value.slice(5)}
+                      tickFormatter={(value) => value.slice(2, 10)}
                       tick={{ fill: '#ABABAB' }}
                     />
                     <YAxis
                       tickLine={false}
                       axisLine={false}
                       tickMargin={8}
-                      tickCount={6}
-                      tickFormatter={(value) => value}
+                      domain={[
+                        0,
+                        (dataMax: number) => Math.max(5, Math.ceil(dataMax)),
+                      ]}
+                      allowDecimals={false}
+                      ticks={yTicks}
+                      tickFormatter={(value) => Math.round(value).toString()}
                       tick={{ fill: '#ABABAB' }}
                     />
                     <ChartTooltip
@@ -79,7 +76,7 @@ const LearningCompletionGraph = () => {
                       content={<ChartTooltipContent hideLabel />}
                     />
                     <Line
-                      dataKey='completed'
+                      dataKey='totalsessions'
                       type='natural'
                       stroke='#6366F1'
                       strokeWidth={2}

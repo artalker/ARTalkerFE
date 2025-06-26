@@ -54,23 +54,22 @@ const TalkInput = ({
   //* 마이크 사용 함수 핸들러
   const handleMicClick = async () => {
     if (isPlaying) return;
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-      stream.getTracks().forEach((track) => track.stop());
-      if (isRecording) {
-        SpeechRecognition.startListening({
-          continuous: true,
-          language: 'en-US',
+
+    if (isRecording) {
+      try {
+        // 마이크 권한 요청
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
         });
-      } else if (!isRecording) {
-        SpeechRecognition.stopListening();
+        stream.getTracks().forEach((track) => track.stop());
+
+        // 권한이 허용되면 isRecording 상태 토글
+        setIsRecording((prev) => !prev);
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : '마이크 권한이 거부되었습니다.';
+        setPermissionError(errorMessage);
       }
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : '마이크 권한이 거부되었습니다.';
-      setPermissionError(errorMessage);
     }
   };
 
@@ -91,7 +90,6 @@ const TalkInput = ({
         },
         {
           onSuccess: (res) => {
-            console.log('사용자 응답:', res);
             setAiMessageData((prev) => [
               ...prev,
               {
@@ -171,13 +169,25 @@ const TalkInput = ({
     }
   }, [input]);
 
+  //* 음성 인식 결과 처리
+  useEffect(() => {
+    if (isRecording && listening) {
+      setInput(transcript);
+    }
+  }, [transcript, isRecording, listening]);
+
   //* 마이크 사용 여부
   useEffect(() => {
     if (isRecording) {
-      handleMicClick();
-    } else if (!isRecording) {
+      SpeechRecognition.startListening({ continuous: true, language: 'en-US' });
+    } else {
       SpeechRecognition.stopListening();
+      resetTranscript(); // 녹음 중지 시 transcript 초기화
     }
+
+    return () => {
+      SpeechRecognition.stopListening();
+    };
   }, [isRecording]);
 
   return (
@@ -214,7 +224,10 @@ const TalkInput = ({
           <div className='w-full h-[47px] flex items-center p-[4px] bg-[#F5F5F6] rounded-[50px] px-[12px]'>
             <button
               onClick={() => {
-                setIsRecording(!isRecording);
+                handleMicClick();
+                if (!isRecording) {
+                  setIsRecording(true);
+                }
               }}
               className={`${isRecording ? 'text-[#6366F1]' : 'text-[#ABABAB]'}`}
             >
